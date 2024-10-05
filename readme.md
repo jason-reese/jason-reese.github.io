@@ -4,10 +4,10 @@
 
 Interactive Alert Maps 
 
-Weather Map
+Real-time Weather and ALert Map
 <https://jason-reese.github.io/leaflet/weather>
 
-Earthquake Map
+24 Hour Earthquake Map 
 <https://jason-reese.github.io/leaflet/earthquake>
 
 Combination Map
