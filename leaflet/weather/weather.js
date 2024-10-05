@@ -10,7 +10,7 @@ var radarDisplayOptions = {
 };
 var radar = L.tileLayer.wms(radarUrl, radarDisplayOptions).addTo(map);
 
-var weatherAlertsUrl = 'https://api.weather.gov/alerts/active?region_type=land';
+var weatherAlertsUrl = 'https://www.weather.gov/documentation/services-web-api#/default/get_alerts_active';
 $.getJSON(weatherAlertsUrl, function(data) {
   L.geoJSON(data, {
     style:function(feature){
