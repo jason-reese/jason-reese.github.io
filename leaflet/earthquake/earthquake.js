@@ -1,7 +1,7 @@
 var map = L.map('quakemap').setView([38, -95], 5);
-var basemapUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+var basemapUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var basemap = L.tileLayer(basemapUrl, {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 }).addTo(map);
 
 
@@ -11,8 +11,13 @@ fetch(quakeUrl)
   .then(data => {
     var style = (feature) => {
       return {
-        color: feature.properties.mag > 5 ? 'red' : feature.properties.mag > 3 ? 'orange' : 'yellow',
-        radius: feature.properties.mag * 3
+        //used lower magnitudes because of low daily intensities
+        color: feature.properties.mag > 5 ? 'teal' :
+          feature.properties.mag > 4 ? 'purple' :
+            feature.properties.mag > 3 ? 'red' :
+              feature.properties.mag > 2 ? 'orange' :
+                feature.properties.mag > 1 ? 'yellow' : 'lime',
+        radius: feature.properties.mag * 10
       };
     };
 
@@ -21,7 +26,7 @@ fetch(quakeUrl)
         return L.circleMarker(latlng, style(feature));
       },
       onEachFeature: (feature, layer) => {
-        layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.properties.place}`);
+        layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.geometry.coordinates}`);
       }
     }).addTo(map);
   })
