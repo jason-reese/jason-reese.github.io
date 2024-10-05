@@ -2,7 +2,10 @@ body {
   padding: 0;
   margin: 0;
 }
-html, body, #weathermap {
+
+html,
+body,
+#weathermap {
   height: 100%;
-  width: 100%;  
+  width: 100%;
 }

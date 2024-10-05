@@ -1,30 +1,27 @@
 var map = L.map('quakemap').setView([38, -95], 5);
-var basemapUrl = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+var basemapUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 var basemap = L.tileLayer(basemapUrl, {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-});
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+}).addTo(map);
 
 
-var radarUrl ='https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi';
-var radarDisplayOptions = {
-  layers: 'nexrad-n0r-900913',
-  format: 'image/png',
-  transparet: true
-};
-var radar = L.tileLayer.wms(radarUrl, radarDisplayOptions).addTo(map);
+var quakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+fetch(quakeUrl)
+  .then(response => response.json())
+  .then(data => {
+    var style = (feature) => {
+      return {
+        color: feature.properties.mag > 5 ? 'red' : feature.properties.mag > 3 ? 'orange' : 'yellow',
+        radius: feature.properties.mag * 3
+      };
+    };
 
-var weatherAlertsUrl = 'https://api.weather.gov/alerts/active?region_type=land';
-$.getJSON(weatherAlertsUrl, function(data) {
-  L.geoJSON(data, {
-    style:function(feature){
-      var alertColor = 'orange';
-      if (feature.properties.severity === 'Severe') alertColor = 'red';
-      else if  (feature.properties.severity === 'Moderate') alertColor = 'purple';
-      return { color: alertColor};
-    },
-      onEachFeature: function(feature, layer){
-        layer.bindPopup(feature.properties.headline)
+    L.geoJSON(data, {
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, style(feature));
+      },
+      onEachFeature: (feature, layer) => {
+        layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.properties.place}`);
       }
-          
-  }).addTo(map);
-});
+    }).addTo(map);
+  })

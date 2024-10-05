@@ -2,7 +2,10 @@ body {
   padding: 0;
   margin: 0;
 }
-html, body, #quakemap {
+
+html,
+body,
+#quakemap {
   height: 100%;
-  width: 100%;  
+  width: 100%;
 }
