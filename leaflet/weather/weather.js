@@ -2,7 +2,7 @@ var map = L.map('weathermap').setView([38, -95], 20);
 var basemapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 var basemap = L.tilelayer(basemapUrl, {attribution: '&copy; <a href = "http://' + 'www.openstreetmap.org/copyright">OpenStreetMap</a>'})
 
-var radarUrl ='https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r-t.cgi? ';
+var radarUrl ='http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi';
 var radarDisplayOptions = {
   layers: 'nexrad-nor-900913',
   format: 'image/png',
