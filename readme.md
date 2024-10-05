@@ -4,7 +4,7 @@
 
 Map stuff here
 
-https://jason-reese.github.io/leaflet/weather
+<https://jason-reese.github.io/leaflet/weather>
 
 
-https://jason-reese.github.io/leaflet/earthquake
+<https://jason-reese.github.io/leaflet/earthquake>
