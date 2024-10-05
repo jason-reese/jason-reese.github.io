@@ -29,4 +29,19 @@ fetch(quakeUrl)
         layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.geometry.coordinates}`);
       }
     }).addTo(map);
-  })
+  });
+
+var legend = L.control({ position: 'bottomright' });
+
+legend.onAdd = function () {
+  var div = L.DomUtil.create('div', 'legend');
+  div.innerHTML += '<strong>Magnitude</strong><br>';
+  div.innerHTML += '<div><span style="background: teal;"></span> > 5</div>';
+  div.innerHTML += '<div><span style="background: purple;"></span> 4 - 5</div>';
+  div.innerHTML += '<div><span style="background: red;"></span> 3 - 4</div>';
+  div.innerHTML += '<div><span style="background: yellow;"></span> 1 - 2</div>';
+  div.innerHTML += '<div><span style="background: lime;"></span> > 1</div>';
+  return div;
+};
+
+legend.addTo(map);
