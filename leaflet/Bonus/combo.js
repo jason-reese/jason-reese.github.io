@@ -4,7 +4,6 @@ var basemap = L.tileLayer(basemapUrl, {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
 }).addTo(map);
 
-
 var quakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 fetch(quakeUrl)
   .then(response => response.json())
@@ -25,11 +24,10 @@ fetch(quakeUrl)
         return L.circleMarker(latlng, style(feature));
       },
       onEachFeature: (feature, layer) => {
-        layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.geometry.coordinates}`);
+        layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.geometry.coordinates}`)
       }
-    }).addTo(quakeLayer);
-    quakeLayer.addTo(map);
-  });
+    }).addTo(map);
+  })
 
 var weatherAlertsUrl = 'https://api.weather.gov/alerts/active?region_type=land';
 $.getJSON(weatherAlertsUrl, function (data) {
@@ -43,16 +41,6 @@ $.getJSON(weatherAlertsUrl, function (data) {
     onEachFeature: function (feature, layer) {
       layer.bindPopup(feature.properties.headline)
     }
-  }).addTo(alertLayer);
-  alertLayer.addTo(map);
+
+  }).addTo(map);
 });
-
-var overlays = {
-  "Earthquakes": quakeLayer,
-  "Weather Alerts": alertLayer
-};
-
-L.control.layers(null, overlays).addTo(map);
-
-
-
