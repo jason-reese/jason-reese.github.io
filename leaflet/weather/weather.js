@@ -1,5 +1,5 @@
 var map = L.map('weathermap').setView([38, -95], 4);
-var basemapUrl = 'ttps://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}';
+var basemapUrl = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}';
 var basemap = L.tileLayer(basemapUrl)
 
 
