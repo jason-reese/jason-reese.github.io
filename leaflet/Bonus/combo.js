@@ -49,7 +49,7 @@ $.getJSON(weatherAlertsUrl, function (data) {
 
 var overlays = {
   "Earthquakes": quakeLayer,
-  "weatere": alertLayer
+  "Weather Alerts": alertLayer
 };
 
 L.control.layers(null, overlays).addTo(map);
