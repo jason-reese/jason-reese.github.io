@@ -4,6 +4,9 @@ var basemap = L.tileLayer(basemapUrl, {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
 }).addTo(map);
 
+const quakeLayer = L.layerGroup();
+const alertLayer = L.layerGroup(); 
+
 var quakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 fetch(quakeUrl)
   .then(response => response.json())
@@ -43,4 +46,5 @@ $.getJSON(weatherAlertsUrl, function (data) {
     }
 
   }).addTo(map);
+  
 });
