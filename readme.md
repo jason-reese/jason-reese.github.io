@@ -2,7 +2,7 @@
 ## Leaflet Web Map
 ### Author: Jason Reese
 
-Interactive ALert Maps 
+Interactive Alert Maps 
 
 Weather Map
 <https://jason-reese.github.io/leaflet/weather>
