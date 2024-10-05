@@ -1,6 +1,6 @@
 var map = L.map('weathermap').setView([38, -95], 20);
 var basemapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var basemap = L.tilelayer(basemapUrl, {attribution: '&copy; <a href = "http://' + 'www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+var basemap = L.tileLayer(basemapUrl, {attribution: '&copy; <a href = "http://' + 'www.openstreetmap.org/copyright">OpenStreetMap</a>'})
 
 var radarUrl ='http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi';
 var radarDisplayOptions = {
@@ -8,7 +8,7 @@ var radarDisplayOptions = {
   format: 'image/png',
   transparet: true
 };
-var radar = L.titleLayer.wms(radarUrl, radarDispalyOptions).addTo(map);
+var radar = L.tileLayer.wms(radarUrl, radarDispalyOptions).addTo(map);
 
 var weatherAlertsUrl =  'https://www.weather.gov/documentation/services-web-api#/default/get_alerts_active';
 $.getJSON(weatherAlertsUrl, function(data) {
