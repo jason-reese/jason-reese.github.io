@@ -98,7 +98,6 @@ require(
                         sources: [{
                             layer: graphicsLayer,
 
-                            exactMatch: false
                         }]
                     });
 
