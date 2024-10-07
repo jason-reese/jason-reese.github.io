@@ -12,7 +12,8 @@ require(
     ],
     function (
         Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search
-    ) {
+    ) 
+    {
         $(document).ready(function () {
             Main = (function () {
                 let layer = new ElevationLayer({
@@ -58,9 +59,8 @@ require(
                 });
 
 
-                const initMap = function () {
-
-
+                const initMap = function () 
+                {
                     const graphicsLayer = new GraphicsLayer();
                     map.add(graphicsLayer);
                     for (const [key, value] of Object.entries(myStuff)) {
@@ -95,31 +95,29 @@ require(
                     esriRequest("myStuff", {
                         responseType: "json"
                     }).then(function (response) {
-                        const options = response.data.options;
-
-                        // Create an array of search sources
-                        const searchList = options.map(option => ({
-                            name: option.name,
-                            location: [value.city, value.state],
-                            outFields: ["*"]
-                        }));
-                        const searchWidget = new Search({
-                            view: view,
-                            sources: searchList,
-                        })
+                        const options = response.data.options
                     });
 
+                    const searchList = options.map(option => ({
+                        name: option.name,
+                        location: [value.city, value.state],
+                        outFields: ["*"]
+                    }));
+
+                    const searchWidget = new Search({
+                        view: view,
+                        sources: searchList,
+                    });
                     view.ui.add(searchWidget, {
                         position: "top-right"
                     });
 
+
                 }
+
+        });
                 initMap()
                 return {
-
-                };
-
-            })();
-        })
-
-    });
+        };
+    })
+})
