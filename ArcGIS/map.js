@@ -6,7 +6,7 @@ require(
         "esri/Graphic",
         "esri/layers/GraphicsLayer",
         "esri/layers/ElevationLayer",
-        "esri/views/SceneView"
+        "esri/views/SceneView",
         "esri/widgets/Search"
     ],
     function (
