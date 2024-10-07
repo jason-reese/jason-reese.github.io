@@ -12,8 +12,7 @@ require(
     ],
     function (
         Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search
-    ) 
-    {
+    ) {
         $(document).ready(function () {
             Main = (function () {
                 let layer = new ElevationLayer({
@@ -59,8 +58,7 @@ require(
                 });
 
 
-                const initMap = function () 
-                {
+                const initMap = function () {
                     const graphicsLayer = new GraphicsLayer();
                     map.add(graphicsLayer);
                     for (const [key, value] of Object.entries(myStuff)) {
@@ -100,7 +98,7 @@ require(
 
                     const searchList = options.map(option => ({
                         name: option.name,
-                        location: [value.city, value.state],
+                        location: [option.coordinates[1], option.coordinates[0]],
                         outFields: ["*"]
                     }));
 
@@ -112,11 +110,11 @@ require(
                         position: "top-right"
                     });
 
-
+                    ///dont touch!!!
                 }
                 initMap()
                 return {
-           
+
                 };
 
             })();
