@@ -90,14 +90,26 @@ require(
                         graphicsLayer.add(pointGraphic);
 
                     }
+                    esriRequest("myStuff", {
+                        responseType: "json"
+                    }).then(function (response) {
+                        const options = response.data.options
+                    });
+
+                    const searchList = options.map(option => ({
+                        name: option.name,
+                        location: [option.coordinates[1], option.coordinates[0]],
+                        outFields: ["*"]
+                    }));
+
                     const searchWidget = new Search({
                         view: view,
-                       
+                        sources: searchList,
                     });
                     view.ui.add(searchWidget, {
                         position: "top-right"
-                    });
-
+                    })
+                    .catch(err => console.error("Error loading search options:", err));
                     ///dont touch!!!
                 }
                 initMap()
