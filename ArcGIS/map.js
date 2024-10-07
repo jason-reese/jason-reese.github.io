@@ -7,7 +7,8 @@ require(
         "esri/layers/GraphicsLayer",
         "esri/layers/ElevationLayer",
         "esri/views/SceneView",
-        "esri/widgets/Search"
+        "esri/widgets/Search",
+        "esri/request"
     ],
     function (
         Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search
@@ -97,15 +98,14 @@ require(
                         const options = response.data.options;
 
                         // Create an array of search sources
-                        const searchSources = options.map(option => ({
+                        const searchList = options.map(option => ({
                             name: option.name,
-                            location: [value.city,  value.state],
+                            location: [value.city, value.state],
                             outFields: ["*"]
                         }));
                         const searchWidget = new Search({
                             view: view,
-                            sources: [{
-                                layer: graphicsLayer,
+                            sources: searchList,
 
                             }]
                         });
