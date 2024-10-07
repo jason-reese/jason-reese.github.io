@@ -9,11 +9,11 @@ require(
         "esri/views/SceneView",
         "esri/widgets/Search"
     ],
-    function(
-       Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search
+    function (
+        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search
     ) {
-        $(document).ready(function() {
-            Main = (function() {
+        $(document).ready(function () {
+            Main = (function () {
                 let layer = new ElevationLayer({
                     url: "http://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
                 });
@@ -23,7 +23,7 @@ require(
                         layers: [layer]
                     },
                 });
-    
+
                 var view = new SceneView({
                     container: "map",
                     viewingMode: "global",
@@ -35,7 +35,7 @@ require(
                             z: 20000000,
                             spatialReference: {
                                 wkid: 4326
-    
+
                             }
                         },
                         heading: 0,
@@ -53,62 +53,63 @@ require(
                             directShadowsEnabled: false
                         }
                     }
-                    
-                })
-                const searchWidget = new Search({
-                    view: view,
-                    sources: [{
-                        layer: graphicsLayer,
-                       
-                        exactMatch: false,
-                    }]
-                  });
-          
-                  view.ui.add(searchWidget, {
-                    position: "top-right"
-                  });
 
-                const initMap = function(){
-               
-                   
+                });
+
+
+                const initMap = function () {
+
+
                     // var graphicsLayer = new GraphicsLayer()
                     const graphicsLayer = new GraphicsLayer();
                     map.add(graphicsLayer);
-                    for (const [key, value] of Object.entries(myStuff)){
+                    for (const [key, value] of Object.entries(myStuff)) {
                         console.log(key, value)
                         const point = {
-                            type: "point", 
+                            type: "point",
                             x: value.coord[0],
                             y: value.coord[1],
                             z: 10000
-                          };
-                  
-                          const markerSymbol = {
-                            type: "simple-marker", 
+                        };
+
+                        const markerSymbol = {
+                            type: "simple-marker",
                             color: [0, 0, 255],
                             outline: {
-                              // autocasts as new SimpleLineSymbol()
-                              color: [255, 255, 255],
-                              width: 2
+                                // autocasts as new SimpleLineSymbol()
+                                color: [255, 255, 255],
+                                width: 2
                             }
-                          };
-                      
-                          const pointGraphic = new Graphic({
+                        };
+
+                        const pointGraphic = new Graphic({
                             geometry: point,
                             symbol: markerSymbol,
                             popupTemplate: {
                                 title: key + ": " + value.city + ", " + value.state
                             }
-                          });
-                          graphicsLayer.add(pointGraphic);
-                    
+                        });
+                        graphicsLayer.add(pointGraphic);
+
                     }
-                    
-                    
+
+                    const searchWidget = new Search({
+                        view: view,
+                        sources: [{
+                            layer: graphicsLayer,
+
+                            exactMatch: false
+                        }]
+                    });
+
+                    view.ui.add(searchWidget, {
+                        position: "top-right"
+                    });
+
                 }
                 initMap()
                 return {
-           
+
                 };
 
             })();
@@ -117,4 +118,4 @@ require(
     });
 
 
-    
+
