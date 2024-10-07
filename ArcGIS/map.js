@@ -56,14 +56,14 @@ require(
                     
                 })
                 const searchWidget = new Search({
-                    view: view
+                    view: view,
+                    searchAllEnabled: true 
                   });
           
-                  // Add the search widget to the top right corner of the view
                   view.ui.add(searchWidget, {
                     position: "top-right"
                   });
-                  
+
                 const initMap = function(){
                
                    
