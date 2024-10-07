@@ -11,7 +11,7 @@ require(
         "esri/request"
     ],
     function (
-        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search
+        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search, esriRequest
     ) {
         $(document).ready(function () {
             Main = (function () {
@@ -94,7 +94,7 @@ require(
                         responseType: "json"
                     }).then(function (response) {
                         const options = response.data.options
-                    });
+                    })
 
                     const searchList = options.map(option => ({
                         name: option.name,
@@ -108,8 +108,8 @@ require(
                     });
                     view.ui.add(searchWidget, {
                         position: "top-right"
-                    })
-                    .catch(err => console.error("Error loading search options:", err));
+                    });
+
                     ///dont touch!!!
                 }
                 initMap()
