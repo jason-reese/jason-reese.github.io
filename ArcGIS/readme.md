@@ -2,8 +2,6 @@
 ## ArcGIS API Map
 ### Author: Jason Reese
 
-Interactive Alert Maps 
-
-mapapapapa
+3D Map of Places I have visisted 
 
 <https://jason-reese.github.io/ArcGIS/>

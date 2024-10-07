@@ -57,7 +57,11 @@ require(
                 })
                 const searchWidget = new Search({
                     view: view,
-                    searchAllEnabled: true 
+                    sources: [{
+                        layer: graphicsLayer,
+                       
+                        exactMatch: false,
+                    }]
                   });
           
                   view.ui.add(searchWidget, {
