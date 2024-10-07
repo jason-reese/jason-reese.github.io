@@ -1,7 +1,7 @@
 var myStuff = {
     "Graduate School": { city: "Laramie", state: "Wyoming", 
         "coord": [-105.5911, 41.3115] },
-    "Undergrade School": { city: "Bozeman", state: "Montana", 
+    "Undergraduate School": { city: "Bozeman", state: "Montana", 
         "coord": [-111.0429, 45.6760 ] },
     "Current Residence": { city: "Kuna", state: "Idaho", 
         "coord": [-116.3882, 43.5787 ] },

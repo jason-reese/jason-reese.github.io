@@ -60,7 +60,6 @@ require(
                 const initMap = function () {
 
 
-                    // var graphicsLayer = new GraphicsLayer()
                     const graphicsLayer = new GraphicsLayer();
                     map.add(graphicsLayer);
                     for (const [key, value] of Object.entries(myStuff)) {
@@ -92,26 +91,36 @@ require(
                         graphicsLayer.add(pointGraphic);
 
                     }
+                    esriRequest("myStuff", {
+                        responseType: "json"
+                    }).then(function (response) {
+                        const options = response.data.options;
 
-                    const searchWidget = new Search({
-                        view: view,
-                        sources: [{
-                            layer: graphicsLayer,
+                        // Create an array of search sources
+                        const searchSources = options.map(option => ({
+                            name: option.name,
+                            location: [value.city,  value.state],
+                            outFields: ["*"]
+                        }));
+                        const searchWidget = new Search({
+                            view: view,
+                            sources: [{
+                                layer: graphicsLayer,
 
-                        }]
-                    });
+                            }]
+                        });
 
-                    view.ui.add(searchWidget, {
-                        position: "top-right"
-                    });
+                        view.ui.add(searchWidget, {
+                            position: "top-right"
+                        });
 
-                }
+                    }
                 initMap()
                 return {
 
-                };
+                    };
 
-            })();
+                })();
         })
 
     });
