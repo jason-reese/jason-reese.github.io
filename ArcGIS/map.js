@@ -106,24 +106,20 @@ require(
                         const searchWidget = new Search({
                             view: view,
                             sources: searchList,
+                        })
+                    });
 
-                            }]
-                        });
+                    view.ui.add(searchWidget, {
+                        position: "top-right"
+                    });
 
-                        view.ui.add(searchWidget, {
-                            position: "top-right"
-                        });
-
-                    }
+                }
                 initMap()
                 return {
 
-                    };
+                };
 
-                })();
+            })();
         })
 
     });
-
-
-
