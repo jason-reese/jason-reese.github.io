@@ -5,7 +5,7 @@ var myStuff = {
         "coord": [-111.0429, 45.6760 ] },
     "Current Residence": { city: "Kuna", state: "Idaho", 
         "coord": [-116.3882, 43.5787 ] },
-    "Visited Ski Resort 1": { city: "Whistler-Blackcomb", state: "British Columbia", 
+    "Visited Ski Resort 1": { city: "Whistler Blackcomb", state: "British Columbia", 
         "coord": [-122.9574, 50.1163] },
     "Visited Ski Resort 2": { city: "Sun Valley Resort", state: "Idaho", 
         "coord": [-114.3540, 43.6850] },

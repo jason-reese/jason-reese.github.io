@@ -8,10 +8,10 @@ require(
         "esri/layers/ElevationLayer",
         "esri/views/SceneView",
         "esri/widgets/Search",
-        "esri/request"
+        "esri/request" // Ensure you have esri/request for AJAX
     ],
     function (
-        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search, esriRequest
+        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search,esriRequest
     ) 
     {
         $(document).ready(function () {
@@ -49,7 +49,6 @@ require(
                             breakpoint: false
                         }
                     },
-                    // enable shadows to be cast from the features
                     environment: {
                         lighting: {
                             directShadowsEnabled: false
@@ -68,16 +67,15 @@ require(
                             type: "point",
                             x: value.coord[0],
                             y: value.coord[1],
-                            z: 10000
+                          
                         };
 
                         const markerSymbol = {
                             type: "simple-marker",
                             color: [0, 255, 255],
                             outline: {
-                                // autocasts as new SimpleLineSymbol()
-                                color: [255, 255, 255],
-                                width: 2
+                                color: [255, 0, 255],
+                                width: 3
                             }
                         };
 
@@ -89,18 +87,23 @@ require(
                             }
                         });
                         graphicsLayer.add(pointGraphic);
+                        
 
                     }
+                
                     const suggestList = Object.entries(myStuff).map(([key, value]) => ({
-                            name: key,
-                            location: [value.coord[1], value.coord[0]], // [longitude, latitude]
+                            name: value.city,
+                            location: [value.coord[1], value.coord[0]], 
                             outFields: ["*"]
                         }));
-
+                    
                         const searchWidget = new Search({
                             view: view,
-                            suggestions: suggestList
+                            searchAllEnabled: false,
+                            includeDefaultSources: false,
+                            sources: suggestList
                         });
+                
                         view.ui.add(searchWidget, {
                             position: "top-right"
                         });
