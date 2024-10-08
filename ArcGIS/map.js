@@ -12,7 +12,8 @@ require(
     ],
     function (
         Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search, esriRequest
-    ) {
+    ) 
+    {
         $(document).ready(function () {
             Main = (function () {
                 let layer = new ElevationLayer({
@@ -72,7 +73,7 @@ require(
 
                         const markerSymbol = {
                             type: "simple-marker",
-                            color: [0, 0, 255],
+                            color: [0, 255, 255],
                             outline: {
                                 // autocasts as new SimpleLineSymbol()
                                 color: [255, 255, 255],
@@ -90,34 +91,28 @@ require(
                         graphicsLayer.add(pointGraphic);
 
                     }
-                    esriRequest("myStuff", {
-                        responseType: "json"
-                    }).then(function (response) {
-                        const options = response.data.options
-                    })
+                    const suggestList = Object.entries(myStuff).map(([key, value]) => ({
+                            name: key,
+                            location: [value.coord[1], value.coord[0]], // [longitude, latitude]
+                            outFields: ["*"]
+                        }));
 
-                    const searchList = options.map(option => ({
-                        name: option.name,
-                        location: [option.coordinates[1], option.coordinates[0]],
-                        outFields: ["*"]
-                    }));
-
-                    const searchWidget = new Search({
-                        view: view,
-                        sources: searchList,
-                    });
-                    view.ui.add(searchWidget, {
-                        position: "top-right"
-                    });
-
+                        const searchWidget = new Search({
+                            view: view,
+                            suggestions: suggestList
+                        });
+                        view.ui.add(searchWidget, {
+                            position: "top-right"
+                        });
+                    
                     ///dont touch!!!
-                }
+                };
                 initMap()
                 return {
 
                 };
 
             })();
-        })
+        });
 
     });
