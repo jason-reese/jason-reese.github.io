@@ -8,12 +8,10 @@ require(
         "esri/layers/ElevationLayer",
         "esri/views/SceneView",
         "esri/widgets/Search",
-        "esri/request" // Ensure you have esri/request for AJAX
     ],
+
     function (
-        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search,esriRequest
-    ) 
-    {
+        Map, Graphic, GraphicsLayer, ElevationLayer, SceneView, Search) {
         $(document).ready(function () {
             Main = (function () {
                 let layer = new ElevationLayer({
@@ -22,26 +20,24 @@ require(
                 var map = new Map({
                     basemap: "hybrid",
                     ground: {
-                        layers: [layer]
+                        layers: []
                     },
                 });
-
                 var view = new SceneView({
                     container: "map",
                     viewingMode: "global",
                     map: map,
                     camera: {
                         position: {
-                            x: -105.503,
-                            y: 44.270,
-                            z: 20000000,
+                            x: -111,
+                            y: 25,
+                            z: 2990500,
                             spatialReference: {
                                 wkid: 4326
-
                             }
                         },
                         heading: 0,
-                        tilt: 0
+                        tilt: 30
                     },
                     popup: {
                         dockEnabled: true,
@@ -57,7 +53,6 @@ require(
 
                 });
 
-
                 const initMap = function () {
                     const graphicsLayer = new GraphicsLayer();
                     map.add(graphicsLayer);
@@ -67,15 +62,15 @@ require(
                             type: "point",
                             x: value.coord[0],
                             y: value.coord[1],
-                          
+
                         };
 
                         const markerSymbol = {
                             type: "simple-marker",
-                            color: [0, 255, 255],
+                            color: [2, 255, 255],
                             outline: {
-                                color: [255, 0, 255],
-                                width: 3
+                                color: [1, 254, 255],
+                                width: 15
                             }
                         };
 
@@ -86,36 +81,44 @@ require(
                                 title: key + ": " + value.city + ", " + value.state
                             }
                         });
-                        graphicsLayer.add(pointGraphic);
-                        
 
+                        graphicsLayer.add(pointGraphic);
                     }
-                
+
+                    view.on("click", function (event) {
+                        view.hitTest(event).then(function (response) {
+                            const graphics = response.results.find(result => result.graphic.layer === graphicsLayer);
+                            if (graphics) {
+                                const pointZoom = graphics.geometry;
+                                view.goTo({
+                                    target: pointZoom,
+                                    zoom: 9
+                                });
+                            }
+                        });
+                    });
+
                     const suggestList = Object.entries(myStuff).map(([key, value]) => ({
-                            name: value.city,
-                            location: [value.coord[1], value.coord[0]], 
-                            outFields: ["*"]
-                        }));
-                    
-                        const searchWidget = new Search({
-                            view: view,
-                            searchAllEnabled: false,
-                            includeDefaultSources: false,
-                            sources: suggestList
-                        });
-                
-                        view.ui.add(searchWidget, {
-                            position: "top-right"
-                        });
-                    
-                    ///dont touch!!!
+                        name: value.city,
+                        location: [value.coord[1], value.coord[0]],
+                        outFields: ["*"]
+                    }));
+
+                    const searchWidget = new Search({
+                        view: view,
+                        searchAllEnabled: false,
+                        includeDefaultSources: true,
+                        sources: suggestList
+                    });
+
+                    view.ui.add(searchWidget, {
+                        position: "top-right"
+                    });
                 };
+
                 initMap()
                 return {
-
                 };
-
             })();
         });
-
     });
