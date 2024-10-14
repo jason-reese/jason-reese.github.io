@@ -4,4 +4,4 @@
 
 GOoglies goo
 
-<https://jason-reese.github.io/GoogleAPI/>
+<https://jason-reese.github.io/GoogleAPI>
