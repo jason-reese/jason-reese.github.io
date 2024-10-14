@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Heatmaps</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./index.js"></script>
+    
+  </head>
+  <body>
+  
+      <style>
+          #map {
+  height: 100%;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+#floating-panel {
+  background-color: #fff;
+  border: 1px solid #999;
+  left: 25%;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+}
+      </style>
+    <div id="floating-panel">
+      <button id="toggle-heatmap">Hot Springs</button>
+      <button id="toggle-heatmap2">Weather Stations</button>
+    
+    </div>
+    <div id="map"></div>
+    <script>
+let map, heatmap;
+
+var objs = [
+{name: "BAILEY HOT SPRING                    198", lat:55.983,lon:-131.661},
+{name: "BARANOF WARM SPRINGS                 124", lat:57.085,lon:-134.839},
+{name: "BARNES LAKE HOT SPRINGS               79", lat:56.68,lon:-131.882},
+{name: "BELL ISLAND HOT SPRINGS              165", lat:55.933,lon:-131.559},
+{name: "BRADFIELD CANAL HOT SPRINGS          135", lat:56.233,lon:-131.267},
+{name: "CHENA HOT SPRINGS                    153", lat:65.053,lon:-146.057}
+    ]
+
+var wh = [
+  {name:"WNG677 (St. Croix)", lat:17.7451767,lon:-64.8351502},
+  {name:"WXJ69 (San Juan)", lat:18.2684169,lon:-66.0818169},
+  {name:"WXJ68 (Maricao)", lat:18.1477761,lon:-66.9827467},
+  {name:"KDO95 (Falmouth)", lat:43.7626873,lon:-70.325329},
+  {name:"WSM60 (Dresden)", lat:44.1232736,lon:-69.6810678},
+  {name:"KEC93 (Ellsworth)", lat:44.5471296,lon:-68.5110962}
+    ]
+
+async function initMap() {
+    const { Map } = await google.maps.importLibrary("maps");
+    
+    const myLatlng = { lat: 41.3114, lng: -105.5911  };
+
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: myLatlng,
+      mapId: "YOUR_MAP_ID",
+    });
+
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints(),
+    map: map,
+  });
+  var heatmap2 =  new google.maps.visualization.HeatmapLayer({
+    data: getPoints2(),
+    map: map,
+    gradient: ["rgba(0, 255, 255, 0)",
+    "rgba(0, 255, 255, 1)",
+    "rgba(0, 191, 255, 1)",
+    "rgba(0, 127, 255, 1)",
+    "rgba(0, 63, 255, 1)",
+    "rgba(0, 0, 255, 1)",
+    "rgba(0, 0, 223, 1)",
+    "rgba(0, 0, 191, 1)",
+    "rgba(0, 0, 159, 1)",
+    "rgba(0, 0, 127, 1)",
+    "rgba(63, 0, 91, 1)",
+    "rgba(127, 0, 63, 1)",
+    "rgba(191, 0, 31, 1)",
+    "rgba(255, 0, 0, 1)",]
+  });
+  document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);
+  document.getElementById("toggle-heatmap2").addEventListener("click", toggleHeatmap2);
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
+function toggleHeatmap2() {
+  heatmap2.setMap(heatmap2.getMap() ? null : map);
+}
+function getPoints() {
+    var points = []
+    for(var i=0; i<objs.length; i++){
+        points.push(new google.maps.LatLng(objs[i].lat, objs[i].lon))
+    }
+  return points
+}
+function getPoints2() {
+    var points = []
+    for(var i=0; i<wh.length; i++){
+        points.push(new google.maps.LatLng(wh[i].lat, wh[i].lon))
+    }
+  return points
+}
+
+}
+
+    </script>
+  <script async
+  src="https://maps.googleapis.com/maps/api/js?key=YAIzaSyDX5xiAhf11oKZaCeqYPVi36aA-XM_i23U&loading=async&libraries=visualization&callback=initMap">
+</script>
+
+  </body>
+</html>
