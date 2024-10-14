@@ -7,6 +7,8 @@
     <script src="./index.js"></script>
   </head>
   <body>
+    <script type="text/javascript" src="var.js"></script>
+    <script type="text/javascript" src="objs.js"></script>
       <style>
           #map {
   height: 100%;
@@ -45,7 +47,7 @@ body {
 }
       </style>
     <div id="floating-panel">
-      <button id="toggle-heatmap">Trucker Chapels</button>
+      <button id="toggle-heatmap">Hot Springs</button>
       <button id="toggle-heatmap2">Seventh Day Adventist Church</button>
     
     </div>
@@ -53,32 +55,6 @@ body {
     <script>
 let map, heatmap;
 
-var objs = [  {name: "BAILEY HOT SPRING                    198", lat:55.983,lon:-131.661},
-{name: "BARANOF WARM SPRINGS                 124", lat:57.085,lon:-134.839},
-{name: "BARNES LAKE HOT SPRINGS               79", lat:56.68,lon:-131.882},
-{name: "BELL ISLAND HOT SPRINGS              165", lat:55.933,lon:-131.559},
-{name: "BRADFIELD CANAL HOT SPRINGS          135", lat:56.233,lon:-131.267},
-{name: "CHENA HOT SPRINGS                    153", lat:65.053}
-
-]
-
-var wh = [
-  {name:"WNG677 (St. Croix)", lat:17.7451767,lon:-64.8351502},
-  {name:"WXJ69 (San Juan)", lat:18.2684169,lon:-66.0818169},
-  {name:"WXJ68 (Maricao)", lat:18.1477761,lon:-66.9827467},
-  {name:"KDO95 (Falmouth)", lat:43.7626873,lon:-70.325329},
-  {name:"WSM60 (Dresden)", lat:44.1232736,lon:-69.6810678},
-  {name:"KEC93 (Ellsworth)", lat:44.5471296,lon:-68.5110962},
-  {name:"KHB55 (Frenchville)", lat:47.3316944,lon:-68.3378333},
-  {name:"WNG542 (Greenville)", lat:45.4169444,lon:-69.5841677},
-  {name:"WNG543 (Jonesboro)", lat:44.6631932,lon:-67.202484},
-  {name:"WXN28 (Springfield)", lat:45.3520833,lon:-68.27925},
-  {name:"WXM77 (Caribou)", lat:46.554146,lon:-67.8080678},
-  {name:"KHC47 (Meddybemps)", lat:45.0290585,lon:-67.3231566},
-  {name:"KHB54 (Milo)", lat:45.2475184,lon:-69.0108169},
-  {name:"WNG547 (Sugarloaf Mountain)", lat:45.0316858,lon:-70.3131008}
-
-]
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     
@@ -94,6 +70,20 @@ async function initMap() {
   heatmap = new google.maps.visualization.HeatmapLayer({
     data: getPoints(),
     map: map,
+    gradient: ["rgba(0, 255, 255, 0)",
+    "rgba(0, 255, 255, 1)",
+    "rgba(0, 191, 255, 1)",
+    "rgba(0, 127, 255, 1)",
+    "rgba(0, 63, 255, 1)",
+    "rgba(0, 0, 255, 1)",
+    "rgba(0, 0, 223, 1)",
+    "rgba(0, 0, 191, 1)",
+    "rgba(0, 0, 159, 1)",
+    "rgba(0, 0, 127, 1)",
+    "rgba(63, 0, 91, 1)",
+    "rgba(127, 0, 63, 1)",
+    "rgba(191, 0, 31, 1)",
+    "rgba(255, 0, 0, 1)",]
   });
   var heatmap2 =  new google.maps.visualization.HeatmapLayer({
     data: getPoints2(),
