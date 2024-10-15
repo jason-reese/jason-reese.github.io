@@ -1,5 +1,5 @@
-# Assignment 
-## ArcGIS API Map
+# Assignment 6 
+## Google API Map
 ### Author: Jason Reese
 
 GOoglies goo

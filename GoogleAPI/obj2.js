@@ -1,4 +1,4 @@
-var wh = [
+var wthr = [
   {name:"WNG677 (St. Croix)", lat:17.7451767,lon:-64.8351502},
   {name:"WXJ69 (San Juan)", lat:18.2684169,lon:-66.0818169},
   {name:"WXJ68 (Maricao)", lat:18.1477761,lon:-66.9827467},

@@ -1,4 +1,4 @@
-var objs = [
+var htsp = [
 {name: "BAILEY HOT SPRING                    198", lat:55.983,lon:-131.661},
 {name: "BARANOF WARM SPRINGS                 124", lat:57.085,lon:-134.839},
 {name: "BARNES LAKE HOT SPRINGS               79", lat:56.68,lon:-131.882},
