@@ -52,7 +52,7 @@
   </style>
     <div id="floating-panel">
     <button id="toggle-heatmap">Hot Springs</button>
-    <button id="toggle-heatmap2">Weather Stations</button>
+    <button id="toggle-heatmap2">Hiking Trails</button>
   </div>
   <div id="map"></div>
   <script>
@@ -67,7 +67,7 @@
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 5,
         center: myLatlng,
-        mapId: "Hot_Spring_Weather",
+        mapId: "Hot_Spring_Trails",
       
       });
 
@@ -126,8 +126,8 @@
       }
       function getPoints2() {
         var points = []
-        for (var i = 0; i < wthr.length; i++) {
-          points.push(new google.maps.LatLng(wthr[i].lat, wthr[i].lon))
+        for (var i = 0; i < trail.length; i++) {
+          points.push(new google.maps.LatLng(trail[i].lat, trail[i].lon))
         }
         return points
       }
