@@ -1,15 +1,15 @@
-# 5280 GISC Assignments
+# 5300 GISC Assignments
 ## Author: Jason Reese
 
 ### Interactive Maps 
 
-Map assignments reorganized for publishiuhg and hosting using Github.IO
+Map assignments reorganized for publishing and hosting using Github.IO
 
 Assignment 4
 <https://jason-reese.github.io/leaflet/>
 
 Assignment 5 
-<https://jason-reese.github.io/ARcGIS/>
+<https://jason-reese.github.io/ArcGIS/>
 
 Assignment 6
 <https://jason-reese.github.io/GoogleAPI/>
