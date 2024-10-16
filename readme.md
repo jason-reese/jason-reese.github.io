@@ -1,14 +1,15 @@
-# Assignment 4
-## Leaflet Web Map
-### Author: Jason Reese
+# 5280 GISC Assignments
+## Author: Jason Reese
 
-Interactive Alert Maps 
+### Interactive Maps 
 
-Real-time Weather and ALert Map
-<https://jason-reese.github.io/leaflet/weather>
+Map assignments reorganized for publishiuhg and hosting using Github.IO
 
-24 Hour Earthquake Map 
-<https://jason-reese.github.io/leaflet/earthquake>
+Assignment 4
+<https://jason-reese.github.io/leaflet/>
 
-Combination Map
-<https://jason-reese.github.io/leaflet/Bonus>
+Assignment 5 
+<https://jason-reese.github.io/ARcGIS/>
+
+Assignment 6
+<https://jason-reese.github.io/GoogleAPI/>
