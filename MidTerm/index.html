@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Heatmaps</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <link rel="stylesheet" type="text/css" href="./style.css" />
+  <script src="./index.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript" src="monarch.js"></script>
+  <script type="text/javascript" src="milkweed.js"></script>
+  
+  <style>
+    #map {
+      height: 100%;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #floating-panel {
+      position: absolute;
+      top: 10px;
+      left: 25%;
+      z-index: 5;
+      background-color: #fff;
+      padding: 5px;
+      border: 1px solid #999;
+      text-align: center;
+      font-family: "Roboto", "sans-serif";
+      line-height: 10px;
+      padding-left: 10px;
+    }
+
+    #floating-panel {
+      background-color: #fff;
+      border: 1px solid #999;
+      left: 25%;
+      padding: 5px;
+      position: absolute;
+      top: 10px;
+      z-index: 5;
+    }
+  </style>
+    <div id="floating-panel">
+    <button id="toggle-heatmap">Monarch Butterfly</button>
+    <button id="toggle-heatmap2">Milkweed</button>
+  </div>
+  <div id="map"></div>
+  <script>
+    let map, heatmap;
+
+    async function initMap() {
+      const { Map } = await google.maps.importLibrary("maps");
+
+      const myLatlng = { lat: 41.0, lng: -105.0 };
+
+
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 5,
+        center: myLatlng,
+        mapId: "butterfly_weed",
+      
+      });
+
+      heatmap = new google.maps.visualization.HeatmapLayer({
+        data: getPoints(),
+        map: map,
+        radius: 30,
+        opacity: 0.7,
+        gradient: [
+          "rgba(255,0, 0, 0)",
+          "rgba(255, 180, 0, 1)",
+          "rgba(255, 150, 0, 1)",
+          "rgba(255, 120, 0, 1)",
+          "rgba(255, 90, 0,1)",
+          "rgba(255, 60, 0, 1)",
+          "rgba(255, 30, 0, 1)",
+          "rgba(255, 0, 0, 1)"
+        ]
+      });
+      var heatmap2 = new google.maps.visualization.HeatmapLayer({
+        data: getPoints2(),
+        map: map,
+        radius: 40,
+        dissapating: false,
+        gradient: ["rgba(0, 255, 255, 0)",
+          "rgba(0, 255, 0, 1)",
+          "rgba(0, 255, 63, 1)",
+          "rgba(0, 255, 127, 1)",
+          "rgba(0, 255, 191, 1)",
+          "rgba(0, 255, 255, 1)",
+          "rgba(0, 191, 255, 1)",
+          "rgba(0, 127, 255, 1)",
+          "rgba(0, 63, 255, 1)",
+          "rgba(0, 0, 255, 1)",
+          "rgba(63, 0, 255, 1)",
+          "rgba(127, 0, 255, 1)",
+          "rgba(191, 0, 255, 1)",
+          "rgba(255, 0, 255, 1)",
+        ]
+      });
+      document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);
+      document.getElementById("toggle-heatmap2").addEventListener("click", toggleHeatmap2);
+
+      function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+      function toggleHeatmap2() {
+        heatmap2.setMap(heatmap2.getMap() ? null : map);
+      }
+      function getPoints() {
+        var points = []
+        for (var i = 0; i < bfly.length; i++) {
+          points.push(new google.maps.LatLng(bfly[i].lat, bfly[i].lon))
+        }
+        return points
+      }
+      function getPoints2() {
+        var points = []
+        for (var i = 0; i < weed.length; i++) {
+          points.push(new google.maps.LatLng(weed[i].lat, weed[i].lon))
+        }
+        return points
+      }
+
+    }
+
+  </script>
+  \\\ Restrcit API Key for specific website in Google Cloud Service
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX5xiAhf11oKZaCeqYPVi36aA-XM_i23U&loading=async&libraries=visualization&callback=initMap">
+    </script>
+
+</body>
+
+</html>
