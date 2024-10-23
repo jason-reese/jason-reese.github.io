@@ -59,12 +59,9 @@
     async function initMap() {
       const { Map } = await google.maps.importLibrary("maps");
       const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-      const myLatlng = { lat: 41.0, lng: -105.0 };
-
-
+      const myLatlng = { lat: 36.0, lng: -105.0 };
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
+        zoom: 4.5,
         center: myLatlng,
         mapId: "butterfly_weed"
 
@@ -91,7 +88,6 @@
             }
           });
 
-
           //marker event listener
           google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
@@ -111,7 +107,7 @@
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
               scale: 7,
-              fillColor: 'violet',
+              fillColor: 'pink',
               fillOpacity: 1,
               strokeWeight: 5,
               strokeColor: 'green'
@@ -164,6 +160,7 @@
           "rgba(255, 0, 255, 1)",
         ]
       });
+      //heatmap toogle
       document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);
       document.getElementById("toggle-heatmap2").addEventListener("click", toggleHeatmap2);
     
