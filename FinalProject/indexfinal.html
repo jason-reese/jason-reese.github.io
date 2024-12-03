@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map with States Feature Layer</title>
+  <!-- Include ArcGIS JavaScript API CSS -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  <!-- Include ArcGIS JavaScript API -->
+  <script src="https://js.arcgis.com/4.26/"></script>
+  <style>
+    /* Set the map size */
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      margin: 0;
+    }
+    #checkboxContainer {
+      position: absolute;
+      top: 10px;
+      left: 10%;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 99;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Div where the map will be displayed -->
+  <div id="viewDiv"></div>
+  <div id="checkboxContainer">
+    <input type="checkbox" id="toggleLayer" checked />
+    <label for="toggleLayer">Show State Boundaries</label>
+  </div>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/renderers/SimpleRenderer",
+      "esri/widgets/Popup"
+    ],
+      function (Map, MapView, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, Popup) {
+        const map = new Map({
+          basemap: "gray-vector"
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-100, 40],
+          zoom: 4
+        });
+
+        view.constraints = {
+          minZoom: 2,
+          maxZoom: 7
+        };
+
+        const lineSymbol = new SimpleLineSymbol({
+          color: [0, 0, 255], // Blue line color
+          width: 2 // Line width in pixels
+        });
+
+        // Create a SimpleFillSymbol to define the fill of the features
+        const fillSymbol = new SimpleFillSymbol({
+          color: [0, 0, 0, 0.4], // Red fill color with 40% opacity
+          style: "solid", // Solid fill style (other options: diagonal, cross, etc.)
+          outline: lineSymbol // Use the lineSymbol as the outline for the fill
+        });
+
+        // Create a SimpleRenderer to apply the fill and line symbol
+        const renderer = new SimpleRenderer({
+          symbol: fillSymbol // Apply the fillSymbol to the renderer
+        });
+
+        const boundryLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Counties_and_States_with_PR/FeatureServer/1",
+          renderer: renderer  // Apply the renderer to the FeatureLayer
+        });
+
+        var popupState = {
+          title: "{STATE_NAME}",  // Display the name of the state
+          content: "<b>State Abbreviation:</b> {STATE_ABBR}<br>" +  // Show the state abbreviation
+            "<b>Population:</b> {POPULATION}<br>" +  // Show the population (replace with actual field names)
+            "<b>Area:</b> {AREA} sq km"  // Show the area (replace with actual field name)
+        };
+
+        var statesLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/0",  // REST URL for States feature layer
+          popupTemplate: popupState  // Link the popupTemplate to the FeatureLayer
+        });
+
+        var popupCounty = {
+          title: "{STATE_NAME}",  // Display the name of the state
+          content: "<b>Population:</b> {POPULATION}<br>" +  // Show the population (replace with actual field names)
+            "<b>Area:</b> {AREA} sq km"  // Show the area (replace with actual field name)
+        };
+
+        var countyLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/1",  // REST URL for States feature layer
+          popupTemplate: popupCounty  // Link the popupTemplate to the FeatureLayer
+        });
+
+
+        map.add(statesLayer);
+        map.add(countyLayer);
+        map.add(boundryLayer);
+
+      
+
+
+
+        view.when(function () {
+          // Enable the default popup behavior
+          view.popup.autoOpenEnabled = true;
+        });
+
+  const checkbox = document.getElementById("toggleLayer");
+      checkbox.addEventListener("change", function () {
+        if (checkbox.checked) {
+          // Show the FeatureLayer
+          statesLayer.visible = true;
+        } else {
+          // Hide the FeatureLayer  
+          statesLayer.visible = false;
+        }
+      });
+
+      });
+  </script>
+</body>
+
+</html> 
