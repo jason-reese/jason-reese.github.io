@@ -1,109 +1,136 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-  <meta name="description" content="">
-  <link rel="stylesheet" href="styles.css">
-  <title>Quality of Life and Income</title>
-
-  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map with States Feature Layer</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.26/"></script>
-
-  <script src="map.js"></script>
-  <script src="stateObj.js"></script>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      margin: 0;
+    }
+    #checkboxContainer {
+      position: absolute;
+      top: 10px;
+      left: 10%;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 99;
+    }
+  </style>
 </head>
 
 <body>
-  <header class="navbar navbar-dark sticky-top bg-dark">
-    <a class="navbar-brand" href="#">US State Income Tax Explorer Dashboard</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </header>
-
-  <div class="container-fluid">
-    <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-6 sidebar collapse">
-        <div class="position-sticky pt-3">
-          <form id="form">
-            <div class="form-group">
-              <label for="income">Gross Taxable Income</label>
-              <input class="form-control" id="income" name="income" type="number" style="width: 25%">
-
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="marriedRadios" id="marriedRadios1" value="married"
-                checked>
-              <label class="form-check-label" for="marriedRadios1">Married</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="marriedRadios" id="marriedRadios2" value="single">
-              <label class="form-check-label" for="marriedRadios2">Single</label>
-            </div>
-
-            <label for="dependents">Number of Dependents</label>
-            <select class="form-control" id="dependents" style="width: 25%">
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-
-            <button type="submit" class="btn btn-primary d-block mx-auto mt-3">Submit</button>
-          </form>
-        </div>
-      </nav>
-    </div>
+  <div id="viewDiv"></div>
+  <div id="checkboxContainer">
+    <input type="checkbox" id="toggleLayer" checked />
+    <label for="toggleLayer">Show State Boundaries</label>
   </div>
 
-  <div>data from <a
-      href="https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_10_14_Household_Income_Distribution_Boundaries/FeatureServer/0">ArcGIS
-      REST Services Directory</a></div>
-  </div>
-
-  </div>
-  </nav>
-
-  <main class="col-md-9 ms-sm-auto col-lg-6 px-md-4">
-    <div class="h-100 d-inline-block" style="width: 100%;" id="map">
-      <div id="viewDiv"></div>
-    </div>
-    <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
-  </main>
-  </div>
-  </div>
-
-  <body>
-    <script>$(document).ready(function () {
-        $("input[data-type='number']").keyup(function (event) {
-          // skip for arrow keys
-          if (event.which >= 37 && event.which <= 40) {
-            event.preventDefault();
-          }
-          var $this = $(this);
-          var num = $this.val().replace(/,/gi, "");
-          var num2 = num.split(/(?=(?:\d{3})+$)/).join(",");
-          // console.log(num2);
-          // the following line has been simplified. Revision history contains original.
-          $this.val(num2);
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/renderers/SimpleRenderer",
+      "esri/widgets/Popup"
+    ],
+      function (Map, MapView, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, Popup) {
+        const map = new Map({
+          basemap: "gray-vector"
         });
-        function priceSorter(a, b) {
-          var aa = a.replace(',', '')
-          var bb = b.replace(',', '')
-          return aa - bb
-        }
-      });</script>
-  </body>
 
-</html>
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-100, 40],
+          zoom: 4
+        });
+
+        view.constraints = {
+          minZoom: 2,
+          maxZoom: 7
+        };
+
+        const lineSymbol = new SimpleLineSymbol({
+          color: [0, 0, 255], 
+          width: 2 
+        });
+
+        
+        const fillSymbol = new SimpleFillSymbol({
+          color: [0, 0, 0, 0.4], 
+          style: "solid", 
+          outline: lineSymbol 
+        });
+
+        const renderer = new SimpleRenderer({
+          symbol: fillSymbol 
+        });
+
+        const boundryLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Counties_and_States_with_PR/FeatureServer/1",
+          renderer: renderer 
+        });
+
+        var popupState = {
+          title: "{STATE_NAME}",  
+          content: "<b>State Abbreviation:</b> {STATE_ABBR}<br>" +  
+            "<b>Population:</b> {POPULATION}<br>" +  
+            "<b>Area:</b> {AREA} sq km"  
+        };
+
+        var statesLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/0",  
+          popupTemplate: popupState  
+        });
+
+        var popupCounty = {
+          title: "{STATE_NAME}",  
+          content: "<b>Population:</b> {POPULATION}<br>" +  
+            "<b>Area:</b> {AREA} sq km"  
+        };
+
+        var countyLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/1",  
+          popupTemplate: popupCounty  
+        });
+
+
+        map.add(statesLayer);
+        map.add(countyLayer);
+        map.add(boundryLayer);
+
+      
+
+
+
+        view.when(function () {
+          
+          view.popup.autoOpenEnabled = true;
+        });
+
+  const checkbox = document.getElementById("toggleLayer");
+      checkbox.addEventListener("change", function () {
+        if (checkbox.checked) {
+          
+          statesLayer.visible = true;
+        } else {
+          
+          statesLayer.visible = false;
+        }
+      });
+
+      });
+  </script>
+</body>
+
+</html> 
