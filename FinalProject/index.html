@@ -10,11 +10,13 @@
   <style>
     html,
     body,
+
     #viewDiv {
       height: 100%;
       margin: 0;
     }
-    #checkboxContainer {
+
+    #checkboxes {
       position: absolute;
       top: 10px;
       left: 10%;
@@ -28,109 +30,19 @@
 
 <body>
   <div id="viewDiv"></div>
-  <div id="checkboxContainer">
-    <input type="checkbox" id="toggleLayer" checked />
-    <label for="toggleLayer">Show State Boundaries</label>
+  <div id="checkboxes">
+    <input type="checkbox" id="toggleLayer1" />
+    <label for="toggleLayer1">Internet</label>
+    <input type="checkbox" id="toggleLayer2" />
+    <label for="toggleLayer2">House</label>
+    <input type="checkbox" id="toggleLayer3" />
+    <label for="toggleLayer3">other 3</label>
+    <input type="checkbox" id="toggleLayer4" />
+    <label for="toggleLayer4">other 4</label>
   </div>
 
-  <script>
-    require([
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/layers/FeatureLayer",
-      "esri/symbols/SimpleFillSymbol",
-      "esri/symbols/SimpleLineSymbol",
-      "esri/renderers/SimpleRenderer",
-      "esri/widgets/Popup"
-    ],
-      function (Map, MapView, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, Popup) {
-        const map = new Map({
-          basemap: "gray-vector"
-        });
+  <script src="map.js"></script>
 
-        const view = new MapView({
-          container: "viewDiv",
-          map: map,
-          center: [-100, 40],
-          zoom: 4
-        });
-
-        view.constraints = {
-          minZoom: 2,
-          maxZoom: 7
-        };
-
-        const lineSymbol = new SimpleLineSymbol({
-          color: [0, 0, 255], 
-          width: 2 
-        });
-
-        
-        const fillSymbol = new SimpleFillSymbol({
-          color: [0, 0, 0, 0.4], 
-          style: "solid", 
-          outline: lineSymbol 
-        });
-
-        const renderer = new SimpleRenderer({
-          symbol: fillSymbol 
-        });
-
-        const boundryLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Counties_and_States_with_PR/FeatureServer/1",
-          renderer: renderer 
-        });
-
-        var popupState = {
-          title: "{STATE_NAME}",  
-          content: "<b>State Abbreviation:</b> {STATE_ABBR}<br>" +  
-            "<b>Population:</b> {POPULATION}<br>" +  
-            "<b>Area:</b> {AREA} sq km"  
-        };
-
-        var statesLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/0",  
-          popupTemplate: popupState  
-        });
-
-        var popupCounty = {
-          title: "{STATE_NAME}",  
-          content: "<b>Population:</b> {POPULATION}<br>" +  
-            "<b>Area:</b> {AREA} sq km"  
-        };
-
-        var countyLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/1",  
-          popupTemplate: popupCounty  
-        });
-
-
-        map.add(statesLayer);
-        map.add(countyLayer);
-        map.add(boundryLayer);
-
-      
-
-
-
-        view.when(function () {
-          
-          view.popup.autoOpenEnabled = true;
-        });
-
-  const checkbox = document.getElementById("toggleLayer");
-      checkbox.addEventListener("change", function () {
-        if (checkbox.checked) {
-          
-          statesLayer.visible = true;
-        } else {
-          
-          statesLayer.visible = false;
-        }
-      });
-
-      });
-  </script>
 </body>
 
-</html> 
+</html>
