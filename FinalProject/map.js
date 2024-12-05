@@ -46,7 +46,7 @@ require([
               width: 0.5
             })
           }),
-          label: "5% - 10%"
+          label: "< $30000"
         },
         {
           minValue: 30000,
@@ -58,7 +58,7 @@ require([
               width: 0.5
             })
           }),
-          label: "5% - 10%"
+          label: "$30000 - $45000"
         },
         {
           minValue: 45000,
@@ -70,7 +70,7 @@ require([
               width: 0.5
             })
           }),
-          label: "5% - 10%"
+          label: "$45000 - $60000"
         },
         {
           minValue: 60000,
@@ -82,7 +82,7 @@ require([
               width: 0.5
             })
           }),
-          label: "10% - 15%"
+          label: "$60000 - $75000"
         },
         {
           minValue: 75000,
@@ -94,7 +94,7 @@ require([
               width: 0.5
             })
           }),
-          label: "20% - 25%"
+          label: "$75000 - $90000"
         },
         {
           minValue: 90000,
@@ -106,12 +106,12 @@ require([
               width: 0.5
             })
           }),
-          label: "25% - 30%"
+          label: "> $90000"
         },
       ]
     })
   });
- 
+
 
   var incomeCntyLayer = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_10_14_Median_Income_by_Race_and_Age_Selp_Emp_Boundaries/FeatureServer/1",
@@ -128,7 +128,7 @@ require([
               width: 0.5
             })
           }),
-          label: "5% - 10%"
+          label: "< $30000"
         },
         {
           minValue: 30000,
@@ -140,7 +140,7 @@ require([
               width: 0.5
             })
           }),
-          label: "5% - 10%"
+          label: "$30000 - $45000"
         },
         {
           minValue: 45000,
@@ -152,7 +152,7 @@ require([
               width: 0.5
             })
           }),
-          label: "5% - 10%"
+          label: "$45000 - $60000"
         },
         {
           minValue: 60000,
@@ -164,7 +164,7 @@ require([
               width: 0.5
             })
           }),
-          label: "10% - 15%"
+          label: "$60000 - $75000"
         },
         {
           minValue: 75000,
@@ -176,7 +176,7 @@ require([
               width: 0.5
             })
           }),
-          label: "20% - 25%"
+          label: "$75000 - $90000"
         },
         {
           minValue: 90000,
@@ -188,330 +188,625 @@ require([
               width: 0.5
             })
           }),
-          label: "25% - 30%"
+          label: "> $90000"
         },
       ]
     })
   });
 
 
-    var internetSteLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Internet_by_Income_Boundaries/FeatureServer/0",
-      popupTemplate: {
-        title: "{NAME}",
-        content: "<b>no internet:</b> {B28004_calc_pctNoIntE }<br>" +
-          "<b>Area:</b> {AREA} sq km"
+  var internetSteLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Internet_by_Income_Boundaries/FeatureServer/0",
+    popupTemplate: {
+      title: "{NAME}, {State}",
+      content: [{
+        type: "text",
+        text: "<b>Median State Income:</b> ${B19049_001E}<br>" + "<b>Percent without Broadband Internet:</b> {B28004_calc_pctNoIntE}%<br>"
       },
-      renderer: new ClassBreaksRenderer({
-        field: "{B28004_calc_pctNoIntE}",
-        classBreakInfos: [
-          {
-            minValue: 5,
-            maxValue: 10,
-            symbol: new SimpleFillSymbol({
-              color: new Color([0, 255, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "5% - 10%"
-          },
-          {
-            minValue: 10,
-            maxValue: 15,
-            symbol: new SimpleFillSymbol({
-              color: new Color([255, 255, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "10% - 15%"
-          },
-          {
-            minValue: 15,
-            maxValue: 20,
-            symbol: new SimpleFillSymbol({
-              color: new Color([255, 165, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "20% - 25%"
-          },
-          {
-            minValue: 25,
-            maxValue: 30,
-            symbol: new SimpleFillSymbol({
-              color: new Color([255, 0, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "25% - 30%"
-          },
-        ]
-      })
-    });
+      {
+        type: "media",
+        mediaInfos: {
+          title: "<b>Internet Access</b>",
+          type: "pie-chart",
+          value: {
+            fields: ["B28004_calc_numNoIntE", "B28004_calc_numBBE", "B28004_calc_numDialE"],
 
-    var internetCntyLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Internet_by_Income_Boundaries/FeatureServer/1",
-      popupTemplate: {
-        title: "{NAME}, {State}",
-        content: [{
-          type: "text",
-          text: "<b>Median County Income:</b> ${B19049_001E}<br>" + "<b>Percent without Broadband Internt:</b> {B28004_calc_pctNoIntE}%<br>"
-        },
-        {
-          type: "media",
-          mediaInfos: {
-            title: "<b>Internet Access</b>",
-            type: "pie-chart",
-            value: {
-              fields: ["B28004_calc_numNoIntE", "B28004_calc_numBBE", "B28004_calc_numDialE"],
-
-            }
           }
         }
-        ]
-      },
-      renderer: new ClassBreaksRenderer({
-        field: "{B28004_calc_pctNoIntE}",
-        classBreakInfos: [
-          {
-            minValue: 0,
-            maxValue: 10,
-            symbol: new SimpleFillSymbol({
-              color: new Color([0, 255, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "0% - 10%"
-          },
-          {
-            minValue: 10,
-            maxValue: 20,
-            symbol: new SimpleFillSymbol({
-              color: new Color([255, 255, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "10% - 20%"
-          },
-          {
-            minValue: 20,
-            maxValue: 30,
-            symbol: new SimpleFillSymbol({
-              color: new Color([255, 165, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "20% - 30%"
-          },
-          {
-            minValue: 30,
-            maxValue: 50,
-            symbol: new SimpleFillSymbol({
-              color: new Color([255, 0, 0, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "30% - 50%"
-          },
-          {
-            minValue: 50,
-            maxValue: 100,
-            symbol: new SimpleFillSymbol({
-              color: new Color([128, 0, 128, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [200, 200, 200],
-                width: 1
-              })
-            }),
-            label: "50% - 100%"
-          }
-        ]
-      })
-    });
-
-    var houseCntyLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/1",
-      popupTemplate: {
-        title: "{NAME}, {State}",
-        content: [{
-          type: "text",
-          text: "<b>Median County Income:</b> ${B19049_001E}<br>" + "<b>Median Home Value:</b> ${B25077_001E}<br>"
+      }]
+    },
+    renderer: new ClassBreaksRenderer({
+      field: "{B28004_calc_pctNoIntE}",
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 10,
+          symbol: new SimpleFillSymbol({
+            color: new Color([255, 255, 212, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "5% - 10%"
         },
         {
-          type: "media",
-          mediaInfos: {
-            title: "<b>HomeOwnership Rate</b>",
-            type: "pie-chart",
-            value: {
-              fields: ["B25003_002E", "B25003_003E"],
-            }
-          }
-        }
-        ]
-      },
-
-      renderer: new ClassBreaksRenderer({
-        field: "{B25003_calc_pctOwnE}",
-        classBreakInfos: [
-          {
-            minValue: 0,
-            maxValue: 30,
-            symbol: new SimpleFillSymbol({
-              color: new Color([224, 236, 244, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "0% - 10%"
-          },
-          {
-            minValue: 30,
-            maxValue: 40,
-            symbol: new SimpleFillSymbol({
-              color: new Color([191, 211, 230, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "0% - 10%"
-          },
-          {
-            minValue: 40,
-            maxValue: 50,
-            symbol: new SimpleFillSymbol({
-              color: new Color([158, 188, 218, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "10% - 20%"
-          },
-          {
-            minValue: 50,
-            maxValue: 60,
-            symbol: new SimpleFillSymbol({
-              color: new Color([140, 150, 198, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "20% - 30%"
-          },
-          {
-            minValue: 60,
-            maxValue: 70,
-            symbol: new SimpleFillSymbol({
-              color: new Color([140, 107, 177, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "20% - 30%"
-          },
-          {
-            minValue: 70,
-            maxValue: 80,
-            symbol: new SimpleFillSymbol({
-              color: new Color([136, 65, 157, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "20% - 30%"
-          },
-          {
-            minValue: 80,
-            maxValue: 90,
-            symbol: new SimpleFillSymbol({
-              color: new Color([129, 15, 124, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "30% - 50%"
-          },
-          {
-            minValue: 90,
-            maxValue: 100,
-            symbol: new SimpleFillSymbol({
-              color: new Color([77, 0, 75, 0.5]),
-              outline: new SimpleLineSymbol({
-                color: [150, 150, 150],
-                width: 0.5
-              })
-            }),
-            label: "50% - 100%"
-          }
-        ]
-      })
-    });
-
-
-
-
-
-
-
-
-    map.add(incomeSteLayer);
-    map.add(incomeCntyLayer);
-
-
-    ////map.add(internetSteLayer);
-    map.add(internetCntyLayer);
-
-
-    ///map.add(houseSteLayer);
-    map.add(houseCntyLayer);
-
-    document.getElementById("toggleLayer1").addEventListener("change", function () {
-      internetCntyLayer.visible = this.checked;
-    });
-
-    document.getElementById("toggleLayer2").addEventListener("change", function () {
-      houseCntyLayer.visible = this.checked;
-    });
-
-    document.getElementById("toggleLayer3").addEventListener("change", function () {
-      houseSteLayer.visible = this.checked;
-    });
-
-    document.getElementById("toggleLayer4").addEventListener("change", function () {
-      internetSteLayer.visible = this.checked;
-    });
-
-    document.getElementById("toggleLayer4").addEventListener("change", function () {
-      internetSteLayer.visible = this.checked;
-
-    }); document.getElementById("toggleLayer4").addEventListener("change", function () {
-      internetSteLayer.visible = this.checked;
-
-    }); document.getElementById("toggleLayer4").addEventListener("change", function () {
-      internetSteLayer.visible = this.checked;
-    });
-
-
+          minValue: 10,
+          maxValue: 20,
+          symbol: new SimpleFillSymbol({
+            color: new Color([254, 227, 145, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "10% - 15%"
+        },
+        {
+          minValue: 20,
+          maxValue: 30,
+          symbol: new SimpleFillSymbol({
+            color: new Color([254, 196, 79, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "20% - 25%"
+        },
+        {
+          minValue: 30,
+          maxValue: 40,
+          symbol: new SimpleFillSymbol({
+            color: new Color([254, 153, 41, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "25% - 30%"
+        },
+        {
+          minValue: 40,
+          maxValue: 50,
+          symbol: new SimpleFillSymbol({
+            color: new Color([217, 95, 14, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "25% - 30%"
+        },
+        {
+          minValue: 50,
+          maxValue: 70,
+          symbol: new SimpleFillSymbol({
+            color: new Color([153, 52, 4, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "25% - 30%"
+        },
+      ]
+    })
   });
+
+  var internetCntyLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Internet_by_Income_Boundaries/FeatureServer/1",
+    popupTemplate: {
+      title: "{NAME}, {State}",
+      content: [{
+        type: "text",
+        text: "<b>Median County Income:</b> ${B19049_001E}<br>" + "<b>Percent without Broadband Internet:</b> {B28004_calc_pctNoIntE}%<br>"
+      },
+      {
+        type: "media",
+        mediaInfos: {
+          title: "<b>Internet Access</b>",
+          type: "pie-chart",
+          value: {
+            fields: ["B28004_calc_numNoIntE", "B28004_calc_numBBE", "B28004_calc_numDialE"],
+
+          }
+        }
+      }]
+    },
+    renderer: new ClassBreaksRenderer({
+      field: "{B28004_calc_pctNoIntE}",
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 10,
+          symbol: new SimpleFillSymbol({
+            color: new Color([255, 255, 212, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "5% - 10%"
+        },
+        {
+          minValue: 10,
+          maxValue: 20,
+          symbol: new SimpleFillSymbol({
+            color: new Color([254, 227, 145, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "10% - 15%"
+        },
+        {
+          minValue: 20,
+          maxValue: 30,
+          symbol: new SimpleFillSymbol({
+            color: new Color([254, 196, 79, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "20% - 25%"
+        },
+        {
+          minValue: 30,
+          maxValue: 40,
+          symbol: new SimpleFillSymbol({
+            color: new Color([254, 153, 41, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "25% - 30%"
+        },
+        {
+          minValue: 40,
+          maxValue: 50,
+          symbol: new SimpleFillSymbol({
+            color: new Color([217, 95, 14, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "25% - 30%"
+        },
+        {
+          minValue: 50,
+          maxValue: 70,
+          symbol: new SimpleFillSymbol({
+            color: new Color([153, 52, 4, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [200, 200, 200],
+              width: 1
+            })
+          }),
+          label: "25% - 30%"
+        },
+      ]
+    })
+  });
+
+  var houseCntyLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/1",
+    popupTemplate: {
+      title: "{NAME}, {State}",
+      content: [{
+        type: "text",
+        text: "<b>Median County Income:</b> ${B19049_001E}<br>" + "<b>Median Home Value:</b> ${B25077_001E}<br>"
+      },
+      {
+        type: "media",
+        mediaInfos: {
+          title: "<b>HomeOwnership Rate</b>",
+          type: "pie-chart",
+          value: {
+            fields: ["B25003_002E", "B25003_003E"],
+          }
+        }
+      }]
+    },
+
+    renderer: new ClassBreaksRenderer({
+      field: "{B25003_calc_pctOwnE}",
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 30,
+          symbol: new SimpleFillSymbol({
+            color: new Color([224, 236, 244, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 10%"
+        },
+        {
+          minValue: 30,
+          maxValue: 40,
+          symbol: new SimpleFillSymbol({
+            color: new Color([191, 211, 230, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 10%"
+        },
+        {
+          minValue: 40,
+          maxValue: 50,
+          symbol: new SimpleFillSymbol({
+            color: new Color([158, 188, 218, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "10% - 20%"
+        },
+        {
+          minValue: 50,
+          maxValue: 60,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 150, 198, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 60,
+          maxValue: 70,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 107, 177, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 70,
+          maxValue: 80,
+          symbol: new SimpleFillSymbol({
+            color: new Color([136, 65, 157, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 80,
+          maxValue: 90,
+          symbol: new SimpleFillSymbol({
+            color: new Color([129, 15, 124, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "30% - 50%"
+        },
+        {
+          minValue: 90,
+          maxValue: 100,
+          symbol: new SimpleFillSymbol({
+            color: new Color([77, 0, 75, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "50% - 100%"
+        }]
+    })
+  });
+
+  var houseSteLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/0",
+    popupTemplate: {
+      title: "{NAME}, {State}",
+      content: [{
+        type: "text",
+        text: "<b>Median State Income:</b> ${B19049_001E}<br>" + "<b>Median Home Value:</b> ${B25077_001E}<br>"
+      },
+      {
+        type: "media",
+        mediaInfos: {
+          title: "<b>HomeOwnership Rate</b>",
+          type: "pie-chart",
+          value: {
+            fields: ["B25003_002E", "B25003_003E"],
+          }
+        }
+      }]
+    },
+
+    renderer: new ClassBreaksRenderer({
+      field: "{B25003_calc_pctOwnE}",
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 30,
+          symbol: new SimpleFillSymbol({
+            color: new Color([224, 236, 244, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 10%"
+        },
+        {
+          minValue: 30,
+          maxValue: 40,
+          symbol: new SimpleFillSymbol({
+            color: new Color([191, 211, 230, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 10%"
+        },
+        {
+          minValue: 40,
+          maxValue: 50,
+          symbol: new SimpleFillSymbol({
+            color: new Color([158, 188, 218, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "10% - 20%"
+        },
+        {
+          minValue: 50,
+          maxValue: 60,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 150, 198, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 60,
+          maxValue: 70,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 107, 177, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 70,
+          maxValue: 80,
+          symbol: new SimpleFillSymbol({
+            color: new Color([136, 65, 157, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 80,
+          maxValue: 90,
+          symbol: new SimpleFillSymbol({
+            color: new Color([129, 15, 124, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "30% - 50%"
+        },
+        {
+          minValue: 90,
+          maxValue: 100,
+          symbol: new SimpleFillSymbol({
+            color: new Color([77, 0, 75, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "50% - 100%"
+        }]
+    })
+  });
+
+  var houseCntyLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/1",
+    popupTemplate: {
+      title: "{NAME}, {State}",
+      content: [{
+        type: "text",
+        text: "<b>Median County Income:</b> ${B19049_001E}<br>" + "<b>Median Home Value:</b> ${B25077_001E}<br>"
+      },
+      {
+        type: "media",
+        mediaInfos: {
+          title: "<b>HomeOwnership Rate</b>",
+          type: "pie-chart",
+          value: {
+            fields: ["B25003_002E", "B25003_003E"],
+          }
+        }
+      }]
+    },
+    renderer: new ClassBreaksRenderer({
+      field: "{B25003_calc_pctOwnE}",
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 30,
+          symbol: new SimpleFillSymbol({
+            color: new Color([224, 236, 244, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 10%"
+        },
+        {
+          minValue: 30,
+          maxValue: 40,
+          symbol: new SimpleFillSymbol({
+            color: new Color([191, 211, 230, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 10%"
+        },
+        {
+          minValue: 40,
+          maxValue: 50,
+          symbol: new SimpleFillSymbol({
+            color: new Color([158, 188, 218, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "10% - 20%"
+        },
+        {
+          minValue: 50,
+          maxValue: 60,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 150, 198, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 60,
+          maxValue: 70,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 107, 177, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 70,
+          maxValue: 80,
+          symbol: new SimpleFillSymbol({
+            color: new Color([136, 65, 157, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "20% - 30%"
+        },
+        {
+          minValue: 80,
+          maxValue: 90,
+          symbol: new SimpleFillSymbol({
+            color: new Color([129, 15, 124, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "30% - 50%"
+        },
+        {
+          minValue: 90,
+          maxValue: 100,
+          symbol: new SimpleFillSymbol({
+            color: new Color([77, 0, 75, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "50% - 100%"
+        }]
+    })
+  });
+
+
+
+
+
+
+
+
+  map.add(incomeSteLayer);
+  map.add(incomeCntyLayer);
+
+  map.add(internetSteLayer);
+  map.add(internetCntyLayer);
+
+  map.add(houseSteLayer);
+  map.add(houseCntyLayer);
+
+  ///map.add(educSteLayer);
+  ///map.add(educCntyLayer);
+
+  ///map.add(healthSteLayer);
+  ///map.add(healthCntyLayer);
+
+
+
+  document.getElementById("toggleLayer1").addEventListener("change", function () {
+    internetCntyLayer.visible = this.checked;
+  });
+  
+  document.getElementById("toggleLayer1").addEventListener("change", function () {
+    internetSteLayer.visible = this.checked;
+  });
+
+  document.getElementById("toggleLayer2").addEventListener("change", function () {
+    houseCntyLayer.visible = this.checked;
+  });
+
+  document.getElementById("toggleLayer2").addEventListener("change", function () {
+    houseSteLayer.visible = this.checked;
+  });
+
+  document.getElementById("toggleLayer4").addEventListener("change", function () {
+    internetSteLayer.visible = this.checked;
+
+  }); document.getElementById("toggleLayer4").addEventListener("change", function () {
+    internetSteLayer.visible = this.checked;
+
+  }); document.getElementById("toggleLayer4").addEventListener("change", function () {
+    internetSteLayer.visible = this.checked;
+  });
+
+
+});
