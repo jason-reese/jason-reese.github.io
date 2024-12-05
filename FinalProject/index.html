@@ -6,13 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>quality of life</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  
   <script src="https://js.arcgis.com/4.26/"></script>
+
+
   <style>
     html,
     body,
 
     #viewDiv {
-      height: 100%;
+      height: 100vh;
+      width: 100%;
+      justify-content: flex-start;
+      margin: 0;
+    }
+
+    #viewDiv2 {
+      height: 100vh;
+      width: 100%;
+      justify-content: flex-end;
       margin: 0;
     }
 
@@ -29,19 +41,29 @@
 </head>
 
 <body>
-  <div id="viewDiv"></div>
-  <div id="checkboxes">
-    <input type="checkbox" id="toggleLayer1" />
-    <label for="toggleLayer1">Internet</label>
-    <input type="checkbox" id="toggleLayer2" />
-    <label for="toggleLayer2">House</label>
-    <input type="checkbox" id="toggleLayer3" />
-    <label for="toggleLayer3">other 3</label>
-    <input type="checkbox" id="toggleLayer4" />
-    <label for="toggleLayer4">other 4</label>
-  </div>
+  <table style="width: 100%; height: 100%;">
+    <tr>
+      <td style="width: 100%;text-align: center; vertical-align: middle;">
+        <div id="viewDiv">
+          <script src="map.js"></script>
+        </div>
+        <div id="checkboxes">
+          <input type="checkbox" id="toggleLayer1" />
+          <label for="toggleLayer1">Internet</label>
+          <input type="checkbox" id="toggleLayer2" />
+          <label for="toggleLayer2">House</label>
+          <input type="checkbox" id="toggleLayer3" />
+          <label for="toggleLayer3">other 3</label>
+          <input type="checkbox" id="toggleLayer4" />
+          <label for="toggleLayer4">other 4</label>
+        </div>
+      </td>
+     
+    </tr>
+  </table>
 
-  <script src="map.js"></script>
+
+
 
 </body>
 
