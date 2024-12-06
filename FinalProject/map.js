@@ -778,12 +778,6 @@ require([
   ///map.add(healthCntyLayer);
 
 
-  view.popup.dockEnabled = true;  // Enable docking
-  view.popup.dockOptions = {
-    buttonEnabled: false, // Whether the user can un-dock the popup
-    breakpoint: false,   // Optional breakpoint for responsive behavior
-    position: "top-right" // Docking position: top-left, top-right, bottom-left, bottom-right
-  };
 
   const radioButtons = document.querySelectorAll('input[name="filter"]');
   radioButtons.forEach(function (button) {
@@ -816,6 +810,12 @@ require([
     })
   });
 
+  view.popup.dockEnabled = true; 
+  view.popup.dockOptions = {
+    buttonEnabled: false, 
+    breakpoint: false,   
+    position: "top-right" 
+  };
   document.getElementById("toggleLayer1").addEventListener("change", function () {
     internetCntyLayer.visible = this.checked; internetSteLayer.visible = this.checked;
   });
