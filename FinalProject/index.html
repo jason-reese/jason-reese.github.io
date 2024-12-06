@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>quality of life</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
-  
+
   <script src="https://js.arcgis.com/4.26/"></script>
 
 
@@ -37,6 +37,17 @@
       border-radius: 5px;
       z-index: 99;
     }
+
+    #radioboxes {
+      position: absolute;
+      top: 10px;
+      left: 5%;
+      background-color: white;
+      padding: 10px;
+      z-index: 100;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
   </style>
 </head>
 
@@ -45,20 +56,39 @@
     <tr>
       <td style="width: 100%;text-align: center; vertical-align: middle;">
         <div id="viewDiv">
+
+       
+
           <script src="map.js"></script>
+
+
         </div>
-        <div id="checkboxes">
-          <input type="checkbox" id="toggleLayer1" checked/>
+        <div id="radioboxes">
+          <input type="checkbox" id="toggleLayer1" checked />
           <label for="toggleLayer1">Internet</label>
-          <input type="checkbox" id="toggleLayer2" checked/>
+          <input type="checkbox" id="toggleLayer2" checked />
           <label for="toggleLayer2">House</label>
-          <input type="checkbox" id="toggleLayer3" checked/>
+          <input type="checkbox" id="toggleLayer3" checked />
           <label for="toggleLayer3">other 3</label>
-          <input type="checkbox" id="toggleLayer4" checked/>
-          <label for="toggleLayer4">other 4</label>
+          <input type="checkbox" id="toggleLayer4" checked />
+          <label for="toggleLayer4">other 4</label><br>
+          <br>
+          Median Household Income<br>
+          <input type="radio" name="filter" value="All" checked/><label> All Income Levels</label><br>
+
+          <input type="radio" name="filter" value="00" /><label> < $30,000</label><br>
+          <input type="radio" name="filter" value="30" /><label> $30,000 - $45,000</label><br>
+          <input type="radio" name="filter" value="45" /><label> $45,000 - $60,000</label><br>
+          <input type="radio" name="filter" value="60" /><label> $60,000 - $75,000</label><br>
+          <input type="radio" name="filter" value="75" /><label> $75,000 - $90,000</label><br>
+          <input type="radio" name="filter" value="90" /><label> > $90,000</label><br>
+
+
+
+
         </div>
       </td>
-     
+
     </tr>
   </table>
 

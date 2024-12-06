@@ -7,13 +7,15 @@ require([
   "esri/popup/content/MediaContent",
   "esri/widgets/Legend",
   "esri/widgets/Expand",
+  "esri/widgets/Popup",
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/renderers/ClassBreaksRenderer",
   "esri/renderers/SimpleRenderer",
   "esri/Color"
 
-], function (Map, MapView, FeatureLayer, PieChartMediaInfo, ChartMediaInfoValue, MediaContent, Legend, Expand, SimpleFillSymbol, SimpleLineSymbol, ClassBreaksRenderer, SimpleRenderer, Color) {
+], function (Map, MapView, FeatureLayer, PieChartMediaInfo, ChartMediaInfoValue, MediaContent, Legend, Expand, Popup, SimpleFillSymbol, SimpleLineSymbol, ClassBreaksRenderer, SimpleRenderer, Color) {
+
 
   const map = new Map({
     basemap: "gray-vector"
@@ -33,6 +35,7 @@ require([
 
   var incomeSteLayer = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_10_14_Median_Income_by_Race_and_Age_Selp_Emp_Boundaries/FeatureServer/0",
+    outFields: ["B19049_001E"],
     renderer: new ClassBreaksRenderer({
       field: "{B19049_001E}",
       classBreakInfos: [
@@ -759,20 +762,14 @@ require([
   });
 
 
-
-
-
-
-
-
-  map.add(incomeSteLayer);
-  map.add(incomeCntyLayer);
-
   map.add(internetSteLayer);
   map.add(internetCntyLayer);
 
   map.add(houseSteLayer);
   map.add(houseCntyLayer);
+
+  map.add(incomeSteLayer);
+  map.add(incomeCntyLayer);
 
   ///map.add(educSteLayer);
   ///map.add(educCntyLayer);
@@ -781,31 +778,58 @@ require([
   ///map.add(healthCntyLayer);
 
 
+  view.popup.dockEnabled = true;  // Enable docking
+  view.popup.dockOptions = {
+    buttonEnabled: false, // Whether the user can un-dock the popup
+    breakpoint: false,   // Optional breakpoint for responsive behavior
+    position: "top-right" // Docking position: top-left, top-right, bottom-left, bottom-right
+  };
+
+  const radioButtons = document.querySelectorAll('input[name="filter"]');
+  radioButtons.forEach(function (button) {
+    button.addEventListener('change', function (event) {
+      const selectedValue = event.target.value;
+      let definitionExpression = "";
+
+      if (selectedValue === "00") {
+        definitionExpression = "B19049_001E >= 0 AND B19049_001E <= 30000"
+      }
+      else if (selectedValue === "30") {
+        definitionExpression = "B19049_001E >= 30001 AND B19049_001E <= 45000"
+      }
+      else if (selectedValue === "45") {
+        definitionExpression = "B19049_001E >= 45001 AND B19049_001E <= 60000"
+      }
+      else if (selectedValue === "60") {
+        definitionExpression = "B19049_001E >= 60001 AND B19049_001E <= 75000"
+      }
+      else if (selectedValue === "75") {
+        definitionExpression = "B19049_001E >= 75001 AND B19049_001E <= 90000"
+      }
+      else if (selectedValue === "90") {
+        definitionExpression = "B19049_001E >= 90001 AND B19049_001E <= 1000000"
+      }
+      else if (selectedValue === "ALL") {
+        definitionExpression = "B19049_001E"
+      }
+      incomeCntyLayer.definitionExpression = definitionExpression;
+    })
+  });
 
   document.getElementById("toggleLayer1").addEventListener("change", function () {
-    internetCntyLayer.visible = this.checked;
-  });
-  
-  document.getElementById("toggleLayer1").addEventListener("change", function () {
-    internetSteLayer.visible = this.checked;
+    internetCntyLayer.visible = this.checked; internetSteLayer.visible = this.checked;
   });
 
   document.getElementById("toggleLayer2").addEventListener("change", function () {
-    houseCntyLayer.visible = this.checked;
+    houseCntyLayer.visible = this.checked; houseSteLayer.visible = this.checked;
   });
 
-  document.getElementById("toggleLayer2").addEventListener("change", function () {
-    houseSteLayer.visible = this.checked;
+  document.getElementById("toggleLayer77").addEventListener("change", function () {
+    houseStejjjjLayer.visible = this.checked;
   });
 
-  document.getElementById("toggleLayer4").addEventListener("change", function () {
-    internetSteLayer.visible = this.checked;
-
-  }); document.getElementById("toggleLayer4").addEventListener("change", function () {
-    internetSteLayer.visible = this.checked;
-
-  }); document.getElementById("toggleLayer4").addEventListener("change", function () {
-    internetSteLayer.visible = this.checked;
+  document.getElementById("toggleLayer777").addEventListener("change", function () {
+    jjjjj.visible = this.checked;
   });
 
 
