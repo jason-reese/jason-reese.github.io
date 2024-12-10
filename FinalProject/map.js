@@ -9,7 +9,7 @@ require([
   "esri/renderers/SimpleRenderer",
   "esri/Color"
 
-], function (Map, MapView, FeatureLayer,  Legend, SimpleFillSymbol, SimpleLineSymbol, ClassBreaksRenderer, SimpleRenderer, Color) {
+], function (Map, MapView, FeatureLayer, Legend, SimpleFillSymbol, SimpleLineSymbol, ClassBreaksRenderer, SimpleRenderer, Color) {
 
   const map = new Map({
     basemap: "gray-vector"
@@ -22,11 +22,13 @@ require([
     zoom: 3
   });
 
+  ///limit extent to layer draw size
   view.constraints = {
     minZoom: 1,
     maxZoom: 7
   };
 
+  /// reference maps
   var incomeSteLayer = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_10_14_Median_Income_by_Race_and_Age_Selp_Emp_Boundaries/FeatureServer/0",
     outFields: ["B19049_001E"],
@@ -56,10 +58,11 @@ require([
     })
   });
 
+  /// thematic layers
   var internetSteLayer = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Internet_by_Income_Boundaries/FeatureServer/0",
     popupTemplate: {
-      fieldInfos: [{
+      fieldInfos: [{    ///change labels
         fieldName: "B28004_calc_numNoIntE",
         label: "No Internet"
       },
@@ -87,7 +90,7 @@ require([
         }
       }]
     },
-    renderer: new ClassBreaksRenderer({
+    renderer: new ClassBreaksRenderer({   ///legend breaks
       valueExpression: "$feature.B28004_calc_pctNoIntE",
       classBreakInfos: [{
         minValue: 0,
@@ -277,15 +280,15 @@ require([
   var houseSteLayer = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_Highlights_Population_Housing_Basics_Boundaries/FeatureServer/0",
     visible: false,
-     popupTemplate: {
+    popupTemplate: {
       fieldInfos: [{
-      fieldName: "B25003_002E",
-      label: "Home Owners"
-    },
-    {
-      fieldName: "B25003_003E",
-      label: "Renters"
-    }],
+        fieldName: "B25003_002E",
+        label: "Home Owners"
+      },
+      {
+        fieldName: "B25003_003E",
+        label: "Renters"
+      }],
       title: "{NAME}",
       content: [{
         type: "text",
@@ -546,7 +549,7 @@ require([
       },
       {
         fieldName: "B15002_calc_pctHSE",
-        label: "High School Graduate or Equivelant "
+        label: "High School Graduate or Equivelent "
       },
       {
         fieldName: "B15002_calc_pctSomeCollE",
@@ -560,14 +563,14 @@ require([
         fieldName: "B15002_calc_pctGEBAE",
         label: "Bachelor's Degree or Higher"
       }],
-      expressionInfos: [{
+      expressionInfos: [{  ///sum secondary education types for legend
         name: "participation-rate",
         expression: "($feature.B15002_calc_pctSomeCollE + $feature.B15002_calc_pctAAE + $feature.B15002_calc_pctGEBAE)"
       }],
       title: "{NAME}",
       content: [{
         type: "text",
-        text: "<b>Percent of Population with GED or Equivelant:</b> {B15002_calc_pctHSE}%<br>"
+        text: "<b>Percent of Population with GED or Equivelent:</b> {B15002_calc_pctHSE}%<br>"
       },
       {
         type: "media",
@@ -681,7 +684,7 @@ require([
       },
       {
         fieldName: "B15002_calc_pctHSE",
-        label: "High School Graduate or Equivelant "
+        label: "High School Graduate or Equivelent "
       },
       {
         fieldName: "B15002_calc_pctSomeCollE",
@@ -698,7 +701,7 @@ require([
       title: "{NAME}, {State}",
       content: [{
         type: "text",
-        text: "<b>Percent of Population with GED or Equivelant:</b> {B15002_calc_pctHSE}%<br>"
+        text: "<b>Percent of Population with GED or Equivelent:</b> {B15002_calc_pctHSE}%<br>"
       },
       {
         type: "media",
@@ -803,7 +806,7 @@ require([
   var healthSteLayer = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/2022_County_Health_Rankings/FeatureServer/1",
     visible: false,
-    maxScale: 19000000,
+    maxScale: 19000000, ///set scales for display switching
     popupTemplate: {
       title: "{STATE_NAME}",
       content: [{
@@ -817,7 +820,7 @@ require([
       }]
     },
     renderer: new ClassBreaksRenderer({
-      valueExpression: "$feature.v147_rawvalue",
+      valueExpression: "$feature.v147_rawvalue", /// force defined legend label
       classBreakInfos: [{
         minValue: 60,
         maxValue: 70,
@@ -913,65 +916,65 @@ require([
           label: "No Data"
         },
         {
-        minValue: 50,
-        maxValue: 70,
-        symbol: new SimpleFillSymbol({
-          color: new Color([217, 240, 163, 0.5]),
-          outline: new SimpleLineSymbol({
-            color: [150, 150, 150],
-            width: 0.5
-          })
-        }),
-        label: "60-70"
-      },
-      {
-        minValue: 70,
-        maxValue: 80,
-        symbol: new SimpleFillSymbol({
-          color: new Color([173, 221, 142, 0.5]),
-          outline: new SimpleLineSymbol({
-            color: [150, 150, 150],
-            width: 0.5
-          })
-        }),
-        label: "70-80"
-      },
-      {
-        minValue: 80,
-        maxValue: 90,
-        symbol: new SimpleFillSymbol({
-          color: new Color([120, 198, 121, 0.5]),
-          outline: new SimpleLineSymbol({
-            color: [150, 150, 150],
-            width: 0.5
-          })
-        }),
-        label: "80-90"
-      },
-      {
-        minValue: 90,
-        maxValue: 100,
-        symbol: new SimpleFillSymbol({
-          color: new Color([49, 163, 84, 0.5]),
-          outline: new SimpleLineSymbol({
-            color: [150, 150, 150],
-            width: 0.5
-          })
-        }),
-        label: "90-100"
-      },
-      {
-        minValue: 100,
-        maxValue: 120,
-        symbol: new SimpleFillSymbol({
-          color: new Color([0, 104, 55, 0.5]),
-          outline: new SimpleLineSymbol({
-            color: [150, 150, 150],
-            width: 0.5
-          })
-        }),
-        label: "100-110"
-      }]
+          minValue: 50,
+          maxValue: 70,
+          symbol: new SimpleFillSymbol({
+            color: new Color([217, 240, 163, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "60-70"
+        },
+        {
+          minValue: 70,
+          maxValue: 80,
+          symbol: new SimpleFillSymbol({
+            color: new Color([173, 221, 142, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "70-80"
+        },
+        {
+          minValue: 80,
+          maxValue: 90,
+          symbol: new SimpleFillSymbol({
+            color: new Color([120, 198, 121, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "80-90"
+        },
+        {
+          minValue: 90,
+          maxValue: 100,
+          symbol: new SimpleFillSymbol({
+            color: new Color([49, 163, 84, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "90-100"
+        },
+        {
+          minValue: 100,
+          maxValue: 120,
+          symbol: new SimpleFillSymbol({
+            color: new Color([0, 104, 55, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "100-110"
+        }]
     })
   });
 
@@ -987,7 +990,7 @@ require([
   map.add(incomeSteLayer);
   map.add(incomeCntyLayer);
 
-  ///Button logic
+  ///Button logic for income
   const radioButtons = document.querySelectorAll('input[name="filter"]');
   radioButtons.forEach(function (button) {
     button.addEventListener('change', function (event) {
@@ -1055,11 +1058,11 @@ require([
       },
       {
         layer: educateSteLayer,
-        title: "Percent of Population Over 25 with College Degree or Some College"
+        title: "Percent of Population with College Degree or Some College"
       },
       {
         layer: educateCntyLayer,
-        title: "Percent of Population Over 25 with College Degree or Some College"
+        title: "Percent of Population with College Degree or Some College"
       },
       {
         layer: healthSteLayer,
@@ -1074,6 +1077,7 @@ require([
 
   view.ui.add(legend, "bottom-left");
 
+  /// checkbox layer listeners 
   document.getElementById("toggleLayer1").addEventListener("change", function () {
     internetCntyLayer.visible = this.checked; internetSteLayer.visible = this.checked
   });
@@ -1096,7 +1100,7 @@ require([
       const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
 
       if (checkedCount > maxSelection) {
-        alert('You can only select up to ' + maxSelection + ' options.');
+        alert('You can only select up to ' + maxSelection + ' options. Please un-select one and try again.');
         checkbox.checked = false;
       }
     });
