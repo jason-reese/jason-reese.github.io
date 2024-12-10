@@ -18,85 +18,65 @@
       width: 100%;
       justify-content: flex-start;
       margin: 0;
+      font-size: 14px;
     }
 
-    #viewDiv2 {
-      height: 100vh;
-      width: 100%;
-      justify-content: flex-end;
-      margin: 0;
-    }
-
-    #checkboxes {
+    #titlebox {
       position: absolute;
-      top: 10px;
-      left: 10%;
-      background: white;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 99;
+      top: 17px;
+      left: 37%;
+      background-color: white;
+      padding: 10px 50px;
+
+      z-index: 1;
+      border-radius: 1px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     #radioboxes {
       position: absolute;
-      top: 10px;
-      left: 5%;
+      top: 17px;
+      right: 17px;
       background-color: white;
       padding: 10px;
       z-index: 100;
-      border-radius: 5px;
+      border-radius: 1px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
 
 <body>
-  <table style="width: 100%; height: 100%;">
-    <tr>
-      <td style="width: 100%;text-align: center; vertical-align: middle;">
-        <div id="viewDiv">
+  <div id="viewDiv">
+    <div style="width: 100%; text-align: left; vertical-align: middle;">
+    </div>
+    <div id="titlebox">
+      <h2>Income & Quality of Life</h2>
+    </div>
 
-       
-          
+    <div id="radioboxes">
+      <input type="checkbox" id="toggleLayer1" checked />
+      <label for="toggleLayer1">Internet Access</label>
+      <input type="checkbox" id="toggleLayer2" />
+      <label for="toggleLayer2">Home Owner ship</label><br>
+      <input type="checkbox" id="toggleLayer3" />
+      <label for="toggleLayer3">Education Level</label>
+      <input type="checkbox" id="toggleLayer4" />
+      <label for="toggleLayer4">Life Expectancy</label>
 
-
-          
-
-
-        </div>
-        <div id="radioboxes">
-          <input type="checkbox" id="toggleLayer1" checked />
-          <label for="toggleLayer1">Internet</label>
-          <input type="checkbox" id="toggleLayer2" checked />
-          <label for="toggleLayer2">House</label>
-          <input type="checkbox" id="toggleLayer3" checked />
-          <label for="toggleLayer3">other 3</label>
-          <input type="checkbox" id="toggleLayer4" checked />
-          <label for="toggleLayer4">other 4</label><br>
-          <br>
-          Median Household Income<br>
-          <input type="radio" name="filter" value="All" checked/><label> All Income Levels</label><br>
-
-          <input type="radio" name="filter" value="00" /><label> < $30,000</label><br>
-          <input type="radio" name="filter" value="30" /><label> $30,000 - $45,000</label><br>
-          <input type="radio" name="filter" value="45" /><label> $45,000 - $60,000</label><br>
-          <input type="radio" name="filter" value="60" /><label> $60,000 - $75,000</label><br>
-          <input type="radio" name="filter" value="75" /><label> $75,000 - $90,000</label><br>
-          <input type="radio" name="filter" value="90" /><label> > $90,000</label><br>
-
-
-
-
-        </div>
-      </td>
-      
-      
-    </tr>
-  </table>
+      <h4>Median Household Income</h4>
+      <input type="radio" name="filter" value="All" checked /><label> All Income Levels</label><br>
+      <input type="radio" name="filter" value="00" /><label> < $30,000</label><br>
+      <input type="radio" name="filter" value="30" /><label> $30,000 - $40,000</label><br>
+      <input type="radio" name="filter" value="40" /><label> $40,000 - $50,000</label><br>
+      <input type="radio" name="filter" value="50" /><label> $50,000 - $60,000</label><br>
+      <input type="radio" name="filter" value="60" /><label> $60,000 - $70,000</label><br>
+      <input type="radio" name="filter" value="70" /><label> $70,000 - $80,000</label><br>
+      <input type="radio" name="filter" value="80" /><label> $80,000 - $90,000</label><br>
+      <input type="radio" name="filter" value="90" /><label> > $90,000</label><br>
+    </div>
+  </div>
 
   <script src="map.js"></script>
-
-
 </body>
-
 </html>

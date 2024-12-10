@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArcGIS Map with Pie Chart</title>
+
+  <!-- Include ArcGIS API -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.23/"></script>
+
+  <style>
+    #viewDiv {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<div id="viewDiv"></div>
+
+<script>
+  require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/FeatureLayer",
+  "esri/popup/content/PieChartMediaInfo",
+  "esri/popup/content/support/ChartMediaInfoValue",
+  "esri/popup/content/MediaContent",
+  "esri/widgets/Legend",
+  "esri/widgets/Popup",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/renderers/ClassBreaksRenderer",
+  "esri/renderers/SimpleRenderer",
+  "esri/Color"
+
+], function (Map, MapView, FeatureLayer, PieChartMediaInfo, ChartMediaInfoValue, MediaContent, Legend, Popup, SimpleFillSymbol, SimpleLineSymbol, ClassBreaksRenderer, SimpleRenderer, Color) {
+
+    // Define a simple renderer for the feature layer
+    var classBreaksRenderer = new ClassBreaksRenderer({
+      field: "B15002_calc_pctSomeCollE",  // Replace with your actual field
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 30,
+          symbol: new SimpleFillSymbol({
+            color: new Color([224, 236, 244, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "0% - 30%"
+        },
+        {
+          minValue: 30,
+          maxValue: 60,
+          symbol: new SimpleFillSymbol({
+            color: new Color([191, 211, 230, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "30% - 60%"
+        },
+        {
+          minValue: 60,
+          maxValue: 100,
+          symbol: new SimpleFillSymbol({
+            color: new Color([140, 107, 177, 0.5]),
+            outline: new SimpleLineSymbol({
+              color: [150, 150, 150],
+              width: 0.5
+            })
+          }),
+          label: "60% - 100%"
+        }
+      ]
+    });
+
+    // Create FeatureLayer with URL and renderer
+    var featureLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/ACS_10_14_Educational_Attainment_Boundaries/FeatureServer/0", // Replace with your layer URL
+      renderer: classBreaksRenderer,
+      outFields: ["B15002_calc_pctSomeCollE", "B19049_001E"], // Include all fields you want in the popup
+      popupTemplate: {
+        title: "{NAME}",
+        content: [{
+          type: "text",
+          text: "This feature represents the educational attainment in {NAME}."
+        },
+        {
+          type: "media",
+          mediaInfos: [{
+            title: "Education Rates",
+            type: "pie-chart",  // The type is "pie-chart"
+            value: {
+              fields: ["B15002_calc_pctSomeCollE", "B15002_calc_pctAAE", "B15002_calc_pctGEBAE"], // Fields to use in the pie chart
+              normalizeField: null // Optional: Normalize values if necessary
+            },
+            // Customize the pie chart's appearance
+            overlayOptions: {
+              fontColor: "black",   // Font color for labels
+              showPercent: false,    // Show percentages in the chart
+              showLegend: true      // Show legend in the pie chart
+            }
+          }]
+        }]
+      }
+    });
+
+    // Create the Map and MapView
+    var map = new Map({
+      basemap: "streets",  // Or any basemap you prefer
+      layers: [featureLayer]  // Add the feature layer to the map
+    });
+
+    var view = new MapView({
+      container: "viewDiv",  // The container div to display the map
+      map: map
+    });
+
+    // Create a Legend widget and add it to the map view
+    var legend = new Legend({
+      view: view,
+      layerInfos: [{
+        layer: featureLayer, // The layer to show in the legend
+        title: "Education Levels"  // The title of the legend
+      }]
+    });
+
+    // Add the legend to the top-right corner
+    view.ui.add(legend, "top-right");
+
+  });
+</script>
+
+</body>
+</html>
